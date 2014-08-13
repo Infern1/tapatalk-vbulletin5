@@ -251,6 +251,7 @@ Class MbqRdEtForumPost extends MbqBaseRdEtForumPost {
      */
     public function initOMbqEtForumPost($var, $mbqOpt) {
         if ($mbqOpt['case'] == 'postRecord') {
+            
             $nodeid = $var['content']['nodeid'];
             $result = vB_Api::instanceInternal('content_text')->getDataForParse(array($nodeid));
             //the $result[$nodeid]['bbcodeoptions'] caused guest can see limited content for example:image,so removed it
@@ -292,6 +293,7 @@ Class MbqRdEtForumPost extends MbqBaseRdEtForumPost {
     public function getDataLink($node){
         $link = '<br />';
         $contenttype = vB_Types::instance()->getContentTypes();
+        
         foreach ($contenttype as $type){
             if(isset($node['contenttypeid']) and $node['contenttypeid']==$type['id'] ) $link = $this->get($type['class'], $node);
         }
@@ -300,9 +302,11 @@ Class MbqRdEtForumPost extends MbqBaseRdEtForumPost {
 
     public function get($class, $node){
         $fn = "get$class";
-        if(!function_exists($fn)) return;
-        $data =  $this->$fn($node);
-        $data .= '<br />'. $this->getText($node);
+        $data = '';
+        if($class=='Photo' || $class='Link' || $class='Video'){
+            $data =  $this->$fn($node);
+            $data .= '<br />'. $this->getText($node);
+        }
         return $data ;
     }
     

@@ -35,7 +35,12 @@ Class MbqAclEtForumPost extends MbqBaseAclEtForumPost {
      * @return  Boolean
      */
     public function canAclReplyPost($oMbqEtForumTopic) {
-        if (MbqMain::hasLogin() && $oMbqEtForumTopic->mbqBind['topicRecord']['content']['can_comment'] && vB_Api::instanceInternal('user')->hasPermissions('createpermissions', 'vbforum_text', $oMbqEtForumTopic->topicId->oriValue)) {
+        
+        if ( MbqMain::hasLogin() && ((MbqMain::$oMbqAppEnv->exttOptions['templateversion'] < '5.1.0' && $oMbqEtForumTopic->mbqBind['topicRecord']['content']['can_comment']) || (MbqMain::$oMbqAppEnv->exttOptions['templateversion'] >= '5.1.0' && $oMbqEtForumTopic->mbqBind['topicRecord']['content']['canreply']))
+        &&
+        vB_Api::instanceInternal('user')->hasPermissions('createpermissions', 'vbforum_text', $oMbqEtForumTopic->topicId->oriValue)
+        ) {
+        //if (MbqMain::hasLogin() && $oMbqEtForumTopic->mbqBind['topicRecord']['content']['can_comment'] && vB_Api::instanceInternal('user')->hasPermissions('createpermissions', 'vbforum_text', $oMbqEtForumTopic->topicId->oriValue)) {
             if (
             ($oMbqEtForumTopic->mbqBind['topicRecord']['content']['showopen'] || (!$oMbqEtForumTopic->mbqBind['topicRecord']['content']['showopen'] && $oMbqEtForumTopic->mbqBind['topicRecord']['content']['canmoderate'])) 
             && 

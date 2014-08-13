@@ -22,6 +22,8 @@ Class MbqDataPage {
     
     public function __construct() {
         $this->datas = array();
+        $this->totalNum = 0;
+        $this->totalUnreadNum = 0;
     }
     
     /**
@@ -61,7 +63,7 @@ Class MbqDataPage {
         $this->curPage = $page;
         $this->numPerPage = $perPage;
         $this->startNum = ($page - 1) * $perPage;
-        $this->lastNum = $this->startNum + $perPage;
+        $this->lastNum = $this->startNum + $perPage - 1;
     }
     
     /**
