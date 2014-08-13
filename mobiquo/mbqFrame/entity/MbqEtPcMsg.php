@@ -20,7 +20,6 @@ Class MbqEtPcMsg extends MbqBaseEntity {
     public $postTime;       /* timestamp. message creation time. */
     public $newPost;
     
-    public $oMbqEtPc;
     public $oAuthorMbqEtUser;
     public $objsMbqEtAtt;           /* the all attachment objs in this post. */
     public $objsNotInContentMbqEtAtt;   /* the attachement objs not in the content of this post. */
@@ -37,7 +36,6 @@ Class MbqEtPcMsg extends MbqBaseEntity {
         $this->postTime = clone MbqMain::$simpleV;
         $this->newPost = clone MbqMain::$simpleV;
         
-        $this->oMbqEtPc = NULL;
         $this->oAuthorMbqEtUser = NULL;
         $this->objsMbqEtAtt = array();
         $this->objsNotInContentMbqEtAtt = array();

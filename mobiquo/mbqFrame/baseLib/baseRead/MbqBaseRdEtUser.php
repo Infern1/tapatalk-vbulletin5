@@ -33,9 +33,6 @@ Abstract Class MbqBaseRdEtUser extends MbqBaseRd {
         if ($oMbqEtUser->iconUrl->hasSetOriValue()) {
             $data['icon_url'] = (string) $oMbqEtUser->iconUrl->oriValue;
         }
-        if ($oMbqEtUser->userEmail->hasSetOriValue()) {
-            $data['email'] = (string) $oMbqEtUser->userEmail->oriValue;
-        }
         if ($oMbqEtUser->postCount->hasSetOriValue()) {
             $data['post_count'] = (int) $oMbqEtUser->postCount->oriValue;
         }
@@ -65,7 +62,7 @@ Abstract Class MbqBaseRdEtUser extends MbqBaseRd {
             $data['can_whosonline'] = (boolean) MbqBaseFdt::getFdt('MbqFdtUser.MbqEtUser.canWhosonline.default');
         }
         if ($oMbqEtUser->canUploadAvatar->hasSetOriValue()) {
-            $data['can_upload_avatar'] = (boolean) $oMbqEtUser->canUploadAvatar->oriValue;
+            $data['can_upload_avatar'] = (string) $oMbqEtUser->canUploadAvatar->oriValue;
         } else {
             $data['can_upload_avatar'] = (boolean) MbqBaseFdt::getFdt('MbqFdtUser.MbqEtUser.canUploadAvatar.default');
         }
@@ -237,42 +234,6 @@ Abstract Class MbqBaseRdEtUser extends MbqBaseRd {
      */
     public function getDisplayName() {
         MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
-    }
-    
-    /**
-     * sign in
-     *
-     * @return  Array
-     */
-    public function signIn() {
-        MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
-    }
-    
-    /**
-     * login directly without password
-     * only used for sign_in method
-     *
-     * @return  Boolean
-     */
-    protected function loginDirectly() {
-        MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
-    }
-    
-    /**
-     * forget_password
-     *
-     * @return  Array
-     */
-    public function forgetPassword() {
-        MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
-    }
-    
-    /**
-     * judge is admin role
-     *
-     * @return  Boolean
-     */
-    public function isAdminRole() {
     }
   
 }

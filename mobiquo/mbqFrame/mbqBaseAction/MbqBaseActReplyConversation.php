@@ -35,11 +35,6 @@ Abstract Class MbqBaseActReplyConversation extends MbqBaseAct {
                 $oMbqWrEtPcMsg->addMbqEtPcMsg($oMbqEtPcMsg, $oMbqEtPc);
                 $this->data['result'] = true;
                 $this->data['msg_id'] = (string) $oMbqEtPcMsg->msgId->oriValue;
-                $oTapatalkPush = new TapatalkPush();
-                $oTapatalkPush->callMethod('doPushReplyConversation', array(
-                    'oMbqEtPc' => $oMbqEtPc,
-                    'oMbqEtPcMsg' => $oMbqEtPcMsg
-                ));
             } else {
                 MbqError::alert('', '', '', MBQ_ERR_APP);
             }

@@ -30,9 +30,7 @@ Abstract Class MbqBaseRd {
      * @param  String  $pName  property name
      * @param  Array  $mbqOpt
      */
-    protected function makeProperty(&$o, $pName, $mbqOpt = array()) {
-        MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
-    }
+    abstract protected function makeProperty(&$o, $pName, $mbqOpt = array());
   
 }
 

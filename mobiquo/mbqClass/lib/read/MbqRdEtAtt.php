@@ -83,10 +83,12 @@ Class MbqRdEtAtt extends MbqBaseRdEtAtt {
                 $contentType = MbqBaseFdt::getFdt('MbqFdtAtt.MbqEtAtt.contentType.range.pdf');
             } else {
                 $contentType = MbqBaseFdt::getFdt('MbqFdtAtt.MbqEtAtt.contentType.range.other');
-            }     
+            }  
+            if($var['contenttypeid']==16) $id = 'photoid';
+            else $id='id';
             $oMbqEtAtt->contentType->setOriValue($contentType);
-            $oMbqEtAtt->thumbnailUrl->setOriValue(MbqMain::$oMbqAppEnv->rootUrl.'/filedata/fetch?id='.$var['nodeid'].'&d='.$var['thumbnail_dateline'].'&thumb=1');
-            $oMbqEtAtt->url->setOriValue(MbqMain::$oMbqAppEnv->rootUrl.'/filedata/fetch?id='.$var['nodeid'].'&d='.$var['dateline']);
+            $oMbqEtAtt->thumbnailUrl->setOriValue(MbqMain::$oMbqAppEnv->rootUrl.'/filedata/fetch?'.$id.'='.$var['nodeid'].'&type=thumb');
+            $oMbqEtAtt->url->setOriValue(MbqMain::$oMbqAppEnv->rootUrl.'/filedata/fetch?'.$id.'='.$var['nodeid'].'&d='.$var['dateline']);
             $oMbqEtAtt->userId->setOriValue($var['userid']);
             $oMbqEtAtt->mbqBind['attRecord'] = $var;
             return $oMbqEtAtt;

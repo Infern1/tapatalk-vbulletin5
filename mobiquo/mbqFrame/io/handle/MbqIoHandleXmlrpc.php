@@ -152,9 +152,6 @@ Class MbqIoHandleXmlrpc {
             'user_name',
             'username',
             'value',
-            'login_name',
-            'display_name',
-            'email'
         );
         
         // compatibility fix, 'delete_reason' should be string in get_config, and base64 in others

@@ -257,6 +257,7 @@ Class MbqRdEtForumPost extends MbqBaseRdEtForumPost {
             $macro = vB5_Template_NodeText::instance()->register($nodeid);
             //$macro = vB5_Template_NodeText::instance()->register($nodeid, $result[$nodeid]['bbcodeoptions']);
             vB5_Template_NodeText::instance()->replacePlaceholders($macro);
+            $macro .= $this->getDataLink($var);
             $oMbqEtForumPost = MbqMain::$oClk->newObj('MbqEtForumPost');
             $oMbqEtForumPost->postId->setOriValue($var['content']['nodeid']);
             $oMbqEtForumPost->forumId->setOriValue($var['content']['channelid']);
@@ -286,6 +287,59 @@ Class MbqRdEtForumPost extends MbqBaseRdEtForumPost {
             }
         }
         MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_UNKNOWN_CASE);
+    }
+    
+    public function getDataLink($node){
+        $link = '<br />';
+        $contenttype = vB_Types::instance()->getContentTypes();
+        foreach ($contenttype as $type){
+            if(isset($node['contenttypeid']) and $node['contenttypeid']==$type['id'] ) $link = $this->get($type['class'], $node);
+        }
+        return $link;
+    }
+
+    public function get($class, $node){
+        $fn = "get$class";
+        if(!function_exists($fn)) return;
+        $data =  $this->$fn($node);
+        $data .= '<br />'. $this->getText($node);
+        return $data ;
+    }
+    
+    public function getPhoto($node){
+        return $img = '[img]' . MbqMain::$oMbqAppEnv->rootUrl.'/filedata/fetch?photoid='.$node['link_nodeid'] . '[/img]';
+    }
+    
+    public function getPicture($node){
+        return $img = '[img]' . MbqMain::$oMbqAppEnv->rootUrl.'/filedata/fetch?linkid='.$node['link_nodeid'] . '[/img]';
+    }
+    
+    public function getVideo($node){
+        $providers = array(
+            'hulu' => 'http://www.hulu.com/embed/videocode',
+            'youtube' => 'http://www.youtube.com/v/kXYiU_JCYtU?fs=1&hd=0&rel=1&cc_load_policy=1',
+            'youtube_share' => 'http://www.youtube.com/embed/videocode?wmode={vb:raw vboptions.player_wmode}&autoplay=1',
+            'vimeo' => 'http://vimeo.com/moogaloop.swf?clip_id=videocode',
+            'dailymotion' => 'http://www.dailymotion.com/swf/videocode',
+            'metacafe' => 'http://www.metacafe.com/fplayer/videocode.swf',
+            'google' => 'http://video.google.com/googleplayer.swf?docid=videocode',
+            'facebook' => 'http://www.facebook.com/v/videocode',
+        );
+        $items = array();
+        foreach ($node['items'] as $video){
+            $url = str_replace('videocode', $video['code'], $providers[$video['provider']]);
+            $items[] = '[url=' . $url . ']' . $url . '[/url]';
+        }
+        return implode('<br />', $items);
+    }
+    
+    public function getLink($node){
+        if(isset($node['link_nodeid'])) return $img = '[img]' . MbqMain::$oMbqAppEnv->rootUrl.'/filedata/fetch?linkid='.$node['link_nodeid'] . '[/img]';
+        return $link = '[url=' . $node['url'] . ']' . $node['url'] . '[/url]';
+    }
+    
+    public function getText($node){
+        return $node['meta'];
     }
     
     /**
@@ -338,7 +392,7 @@ Class MbqRdEtForumPost extends MbqBaseRdEtForumPost {
     	        $post = preg_replace('/<div class="bbcode_container">[^<]*?<div class="bbcode_description">HTML Code\:<\/div>[^<]*?<pre class="bbcode_code"[^>]*?>(.*?)<\/pre>[^<]*?<\/div>/is', 'HTML Code:[quote]$1[/quote]', $post);    //html
     	        //remove Attached Files html code
     	        $post = preg_replace('/<div class="attachment-list">[^<]*?Attached Files[^<]*?<ul>.*?<\/ul>[^<]*?<\/div>/is', '', $post);
-    	        $post = preg_replace('/<object .*?>.*?<embed src="(.*?)".*?><\/embed><\/object>/is', '[url=$1]$1[/url]', $post); /* for youtube content etc. */
+    	        $post = preg_replace('/<object .*?>.*?<embed src="(.*?)".*?\><\/object>/is', '[url=$1]$1[/url]', $post); /* for youtube content etc. */
                 $post = str_ireplace('<hr />', '<br />____________________________________<br />', $post);
         	    $post = str_ireplace('<li>', "\t\t<li>", $post);
         	    $post = str_ireplace('</li>', "</li><br />", $post);

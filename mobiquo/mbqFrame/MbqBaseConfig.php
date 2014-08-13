@@ -14,19 +14,11 @@ define('MBQ_ERR_APP', 7);   /* normal error that maked by program logic can be d
 define('MBQ_ERR_INFO', 9);  /* success info that maked by program logic can be displayed,the program can works continue or not. */
 define('MBQ_ERR_TOP_NOIO', 11);  /* the worst error that must stop the program immediately and then the MbqIo is not valid,will output error info and stop the program immediately. */
 define('MBQ_ERR_DEFAULT_INFO', 'You are not logged in or you do not have permission to do this action.');
-define('MBQ_ERR_INFO_UNKNOWN_CASE', 'Unknown case value.');
-define('MBQ_ERR_INFO_UNKNOWN_PNAME', 'Unknown property name.');
-define('MBQ_ERR_INFO_UNKNOWN_ERROR', 'Unknown error.');
-define('MBQ_ERR_INFO_NOT_ACHIEVE', 'Has not been achieved.');
-define('MBQ_ERR_INFO_SAVE_FAIL', 'Can not save data.');
-define('MBQ_ERR_INFO_DB_FAIL', 'Db error.');
-define('MBQ_ERR_INFO_PARAMS_ERROR', 'Please input valid values.');
-define('MBQ_ERR_INFO_NOT_SUPPORT', 'Your system or plugin looks do not support this feature.');
-define('MBQ_ERR_INFO_NEED_PARAMS_FOR_REGISTRATION', 'Need valid info for registration.');
-define('MBQ_ERR_INFO_REGISTRATION_FAIL', 'Registration failed.');
-define('MBQ_ERR_INFO_REGISTRATION_SUCCESS', 'Registration success.');
-define('MBQ_ERR_INFO_NOT_PERMIT_FOR_ADMIN', 'Can not do this action for administrator.');
-define('MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE', 'This method need to be achieved in inherited classe.');
+define('MBQ_ERR_INFO_UNKNOWN_CASE', 'Unknown case value!');
+define('MBQ_ERR_INFO_UNKNOWN_PNAME', 'Unknown property name');
+define('MBQ_ERR_INFO_NOT_ACHIEVE', 'Has not been achieved!');
+define('MBQ_ERR_INFO_SAVE_FAIL', 'Can not save data!');
+define('MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE', 'This method need to be achieved in inherited classe!');
 define('MBQ_RUNNING_NAMEPRE', 'mbqnamepre_'.mt_rand(2000000000, 2100000000).'_');   /* mobiquo running time vars name prefix,for example bbcode names. */
 /* path constant */
 require_once(MBQ_FRAME_PATH.'MbqError.php');
@@ -282,12 +274,6 @@ Abstract Class MbqBaseConfig {
         MbqMain::$oClk->reg('MbqBaseActMarkPmUnread', MBQ_BASE_ACTION_PATH.'MbqBaseActMarkPmUnread.php');
         MbqMain::$oClk->reg('MbqBaseActGetThreadByPost', MBQ_BASE_ACTION_PATH.'MbqBaseActGetThreadByPost.php');
         MbqMain::$oClk->reg('MbqBaseActGetThreadByUnread', MBQ_BASE_ACTION_PATH.'MbqBaseActGetThreadByUnread.php');
-        MbqMain::$oClk->reg('MbqBaseActSignIn', MBQ_BASE_ACTION_PATH.'MbqBaseActSignIn.php');
-        MbqMain::$oClk->reg('MbqBaseActPrefetchAccount', MBQ_BASE_ACTION_PATH.'MbqBaseActPrefetchAccount.php');
-        MbqMain::$oClk->reg('MbqBaseActUpdatePassword', MBQ_BASE_ACTION_PATH.'MbqBaseActUpdatePassword.php');
-        MbqMain::$oClk->reg('MbqBaseActUpdateEmail', MBQ_BASE_ACTION_PATH.'MbqBaseActUpdateEmail.php');
-        MbqMain::$oClk->reg('MbqBaseActForgetPassword', MBQ_BASE_ACTION_PATH.'MbqBaseActForgetPassword.php');
-        MbqMain::$oClk->reg('MbqBaseActRegister', MBQ_BASE_ACTION_PATH.'MbqBaseActRegister.php');
         /* action class */
         MbqMain::$oClk->reg('MbqActGetConfig', MBQ_ACTION_PATH.'MbqActGetConfig.php');
         MbqMain::$oClk->reg('MbqActGetForum', MBQ_ACTION_PATH.'MbqActGetForum.php');
@@ -350,12 +336,6 @@ Abstract Class MbqBaseConfig {
         MbqMain::$oClk->reg('MbqActMarkPmUnread', MBQ_ACTION_PATH.'MbqActMarkPmUnread.php');
         MbqMain::$oClk->reg('MbqActGetThreadByPost', MBQ_ACTION_PATH.'MbqActGetThreadByPost.php');
         MbqMain::$oClk->reg('MbqActGetThreadByUnread', MBQ_ACTION_PATH.'MbqActGetThreadByUnread.php');
-        MbqMain::$oClk->reg('MbqActSignIn', MBQ_ACTION_PATH.'MbqActSignIn.php');
-        MbqMain::$oClk->reg('MbqActPrefetchAccount', MBQ_ACTION_PATH.'MbqActPrefetchAccount.php');
-        MbqMain::$oClk->reg('MbqActUpdatePassword', MBQ_ACTION_PATH.'MbqActUpdatePassword.php');
-        MbqMain::$oClk->reg('MbqActUpdateEmail', MBQ_ACTION_PATH.'MbqActUpdateEmail.php');
-        MbqMain::$oClk->reg('MbqActForgetPassword', MBQ_ACTION_PATH.'MbqActForgetPassword.php');
-        MbqMain::$oClk->reg('MbqActRegister', MBQ_ACTION_PATH.'MbqActRegister.php');
         /* base adv action class */
         MbqMain::$oClk->reg('MbqBaseActConfig', MBQ_BASE_ADV_ACTION_PATH.'MbqBaseActConfig.php');
         MbqMain::$oClk->reg('MbqBaseActForums', MBQ_BASE_ADV_ACTION_PATH.'MbqBaseActForums.php');
@@ -403,12 +383,6 @@ Abstract Class MbqBaseConfig {
         $this->cfg['user']['advanced_online_users'] = MbqMain::$oClk->newObj('MbqValue', array('oriValue' => MbqBaseFdt::getFdt('MbqFdtConfig.user.advanced_online_users.default')));    /* Return 1 if the plugin support get_online_users with forum and thread filter, and also pagination */
         $this->cfg['user']['user_id'] = MbqMain::$oClk->newObj('MbqValue', array('oriValue' => MbqBaseFdt::getFdt('MbqFdtConfig.user.user_id.default')));    /* Indicate the function get_participated_topic / get_user_info / get_user_topic / get_user_reply_post support request with user id. */
         $this->cfg['user']['upload_avatar'] = MbqMain::$oClk->newObj('MbqValue', array('oriValue' => MbqBaseFdt::getFdt('MbqFdtConfig.user.upload_avatar.default')));    /* can upload avatar flag. */
-        $this->cfg['user']['sign_in'] = MbqMain::$oClk->newObj('MbqValue', array('oriValue' => MbqBaseFdt::getFdt('MbqFdtConfig.user.sign_in.default')));
-        $this->cfg['user']['inappreg'] = MbqMain::$oClk->newObj('MbqValue', array('oriValue' => MbqBaseFdt::getFdt('MbqFdtConfig.user.inappreg.default')));
-        $this->cfg['user']['sso_login'] = MbqMain::$oClk->newObj('MbqValue', array('oriValue' => MbqBaseFdt::getFdt('MbqFdtConfig.user.sso_login.default')));
-        $this->cfg['user']['sso_signin'] = MbqMain::$oClk->newObj('MbqValue', array('oriValue' => MbqBaseFdt::getFdt('MbqFdtConfig.user.sso_signin.default')));
-        $this->cfg['user']['sso_register'] = MbqMain::$oClk->newObj('MbqValue', array('oriValue' => MbqBaseFdt::getFdt('MbqFdtConfig.user.sso_register.default')));
-        $this->cfg['user']['native_register'] = MbqMain::$oClk->newObj('MbqValue', array('oriValue' => MbqBaseFdt::getFdt('MbqFdtConfig.user.native_register.default')));
       /* forum */
         $this->cfg['forum']['module_enable'] = MbqMain::$oClk->newObj('MbqValue', array('oriValue' => MbqBaseFdt::getFdt('MbqFdtConfig.forum.module_enable.default')));
         $this->cfg['forum']['report_post'] = MbqMain::$oClk->newObj('MbqValue', array('oriValue' => MbqBaseFdt::getFdt('MbqFdtConfig.forum.report_post.default')));    /* return 1 to indicate the plugin support report_post function. */

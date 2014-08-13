@@ -37,6 +37,7 @@ Abstract Class MbqBaseActGetThread extends MbqBaseAct {
                 $this->data['forum_name'] = (string) $oMbqEtForumTopic->oMbqEtForum->forumName->oriValue;
                 $this->data['can_upload'] = (boolean) $oMbqEtForumTopic->oMbqEtForum->canUpload->oriValue;
                 $this->data['posts'] = $oMbqRdEtForumPost->returnApiArrDataForumPost($oMbqDataPage->datas, $returnHtml);
+                k($this->data);
                 $oMbqWrEtForumTopic = MbqMain::$oClk->newObj('MbqWrEtForumTopic');
                 /* add forum topic view num */
                 $oMbqWrEtForumTopic->addForumTopicViewNum($oMbqEtForumTopic);

@@ -30,7 +30,7 @@ Abstract Class MbqFdtPm extends MbqBaseFdt {
                     'no' => false
                 )
             ),
-            'isUnread' => array(
+            'allowSmilies' => array(
                 'range' => array(
                     'yes' => true,
                     'no' => false

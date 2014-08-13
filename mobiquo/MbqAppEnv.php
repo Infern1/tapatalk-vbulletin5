@@ -29,10 +29,10 @@ Class MbqAppEnv extends MbqBaseAppEnv {
         @ ob_start();
         define('EXTTMBQ_NO_LIMIT_DEPTH', 10000);    //define a big depth as no limit
         define('EXTTMBQ_NO_LIMIT_PERPAGE', PHP_INT_MAX);    //define a big perpage as no limit(all data)
-        //$this->rootUrl = vB5_Config::instance()->baseurl;
+        $this->exttOptions = vB::getDatastore()->getValue('options');
+        $this->rootUrl = (vB5_Config::instance()->baseurl)? vB5_Config::instance()->baseurl : $this->exttOptions['frontendurl'];
+        $this->baseUrlCore = (vB5_Config::instance()->baseurl_core)? vB5_Config::instance()->baseurl_core : $this->exttOptions['bburl'];
         //$this->baseUrlCore = vB5_Config::instance()->baseurl_core;
-        $this->rootUrl = vB5_Template_Options::instance()->get('options.frontendurl');
-        $this->baseUrlCore = vB5_Template_Options::instance()->get('options.bburl');
         if (MbqMain::$oMbqConfig->moduleIsEnable('user')) {
             $newResult = vB_Api::instance('user')->fetchCurrentUserinfo();
             if ($newResult['userid']) {
@@ -51,7 +51,7 @@ Class MbqAppEnv extends MbqBaseAppEnv {
         }
         $option = vB::getDatastore()->getValue('options');
         $this->hideForumIds = unserialize($option['tapatalk_hide_forum']);
-        $this->exttOptions = vB::getDatastore()->getValue('options');
+        //$this->exttOptions = vB::getDatastore()->getValue('options');
         $this->exttAttachmentcache = vB::getDatastore()->getValue('attachmentcache');
         @ ob_end_clean();
     }
