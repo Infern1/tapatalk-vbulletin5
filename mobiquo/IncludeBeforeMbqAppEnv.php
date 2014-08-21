@@ -174,8 +174,8 @@ if (!defined('VB_ENTRY')) { //for vb 5.0.4
 
 require_once('includes/vb5/autoloader.php');
 vB5_Autoloader::register(getcwd());
-//vB5_Frontend_Application::init('config.php');
-vB5_Frontend_ApplicationLight::init('config.php');
+vB5_Frontend_Application::init('config.php');
+//vB5_Frontend_ApplicationLight::init('config.php');
 
 @ ob_end_clean();
 

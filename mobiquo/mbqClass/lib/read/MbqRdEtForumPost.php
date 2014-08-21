@@ -303,7 +303,8 @@ Class MbqRdEtForumPost extends MbqBaseRdEtForumPost {
     public function get($class, $node){
         $fn = "get$class";
         $data = '';
-        if($class=='Photo' || $class='Link' || $class='Video'){
+        $classes = array('Photo','Link','Video');
+        if(in_array($class, $classes)){
             $data =  $this->$fn($node);
             $data .= '<br />'. $this->getText($node);
         }
