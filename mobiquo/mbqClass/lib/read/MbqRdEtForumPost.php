@@ -251,13 +251,16 @@ Class MbqRdEtForumPost extends MbqBaseRdEtForumPost {
      */
     public function initOMbqEtForumPost($var, $mbqOpt) {
         if ($mbqOpt['case'] == 'postRecord') {
-            
+            //k($var);
             $nodeid = $var['content']['nodeid'];
             $result = vB_Api::instanceInternal('content_text')->getDataForParse(array($nodeid));
             //the $result[$nodeid]['bbcodeoptions'] caused guest can see limited content for example:image,so removed it
             $macro = vB5_Template_NodeText::instance()->register($nodeid);
+			
+			
             //$macro = vB5_Template_NodeText::instance()->register($nodeid, $result[$nodeid]['bbcodeoptions']);
             vB5_Template_NodeText::instance()->replacePlaceholders($macro);
+			
             $macro .= $this->getDataLink($var);
             $oMbqEtForumPost = MbqMain::$oClk->newObj('MbqEtForumPost');
             $oMbqEtForumPost->postId->setOriValue($var['content']['nodeid']);
@@ -363,7 +366,9 @@ Class MbqRdEtForumPost extends MbqBaseRdEtForumPost {
         attention input param:return_html
         attention output param:post_content
         */
+		
         $post = $content;
+
         if ($returnHtml) {
             //MbqCm::writeLog($content."\n\n\n\n--------------------------------------------------------\n\n\n\n", true);
             if ($obj->mbqBind['bbcodeoptions']['allowsmilies']) {
@@ -392,26 +397,37 @@ Class MbqRdEtForumPost extends MbqBaseRdEtForumPost {
     	        $post = preg_replace('/<img .*?src="(.*?)" .*?\/>/i', '[img]$1[/img]', $post);
     	        $post = preg_replace('/<a .*?href="mailto:(.*?)".*?>(.*?)<\/a>/i', '[url=$1]$2[/url]', $post);
     	        $post = preg_replace('/<a .*?href="(.*?)".*?>(.*?)<\/a>/i', '[url=$1]$2[/url]', $post);
+				$post = preg_replace('/<a.*?href="(.*?)".*?\s+>\s+.*?\s+(<img[^>]+src\s*=\s*"(.*?)"[^>].*?\s+\/?\>)?\s+.*\s+.*\s+<\/a>/i', '[url=$1]$1[/url]', $post);
+				//preg_match ("/<img[^>]+src\s*=\s*[\"']\/?([^\"']+)[\"'][^>]*\>/", $msg, $m);
+				//preg_match('/<a .*?href="(.*?)".*?\s+>\s+.*?\s+<img[^>]+src\s*=\s*"(.*?)"[^>]*\>.*?<\/a>/i',$post, $x );
+				
     	        $post = preg_replace('/<div class="bbcode_container">[^<]*?<div class="bbcode_description">PHP Code\:<\/div>[^<]*?<div class="bbcode_code"[^>]*?><code><code>(.*?)<\/code><\/code><\/div>[^<]*?<\/div>/is', 'PHP Code:[quote]$1[/quote]', $post);    //php
     	        $post = preg_replace('/<div class="bbcode_container">[^<]*?<div class="bbcode_description">Code\:<\/div>[^<]*?<pre class="bbcode_code"[^>]*?>(.*?)<\/pre>[^<]*?<\/div>/is', 'Code:[quote]$1[/quote]', $post);    //code
     	        $post = preg_replace('/<div class="bbcode_container">[^<]*?<div class="bbcode_description">HTML Code\:<\/div>[^<]*?<pre class="bbcode_code"[^>]*?>(.*?)<\/pre>[^<]*?<\/div>/is', 'HTML Code:[quote]$1[/quote]', $post);    //html
     	        //remove Attached Files html code
+				
     	        $post = preg_replace('/<div class="attachment-list">[^<]*?Attached Files[^<]*?<ul>.*?<\/ul>[^<]*?<\/div>/is', '', $post);
-    	        $post = preg_replace('/<object .*?>.*?<embed src="(.*?)".*?\><\/object>/is', '[url=$1]$1[/url]', $post); /* for youtube content etc. */
+    	        $post = preg_replace('/<div class="b-post-attachments">[^<]*?Attached Files[^<]*?<ul>.*?<\/ul>[^<]*?<\/div>/is', '', $post);
+				$post = preg_replace('/<object .*?>.*?<embed src="(.*?)".*?\><\/object>/is', '[url=$1]$1[/url]', $post); /* for youtube content etc. */
                 $post = str_ireplace('<hr />', '<br />____________________________________<br />', $post);
-        	    $post = str_ireplace('<li>', "\t\t<li>", $post);
-        	    $post = str_ireplace('</li>', "</li><br />", $post);
+        	    
+				$post = str_ireplace('<li>', "\t\t<li>", $post);
+        	    		
+				$post = str_ireplace('</li>', "</li><br />", $post);
         	    $post = str_ireplace('</tr>', '</tr><br />', $post);
         	    $post = str_ireplace('</td>', "</td>\t\t", $post);
     	        $post = str_ireplace('</div>', '</div><br />', $post);
     	        $post = str_ireplace('&nbsp;', ' ', $post);
+				
     	        $post = strip_tags($post, '<br><i><b><u><font>');
+				
             } else {
             }
         } else {
     	    $post = strip_tags($post);
         }
-    	$post = trim($post);
+		
+		$post = trim($post);
             //MbqCm::writeLog($post."\n\n\n\n--------------------------------------------------------\n\n\n\n", true);
     	return $post;
     }

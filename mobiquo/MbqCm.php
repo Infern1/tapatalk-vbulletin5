@@ -57,6 +57,9 @@ Class MbqCm extends MbqBaseCm {
         } else {
             $content = preg_replace('/\[ATTACH\]([^\[]*?)\[\/ATTACH\]/i', '[ATTACH=CONFIG]n$1[/ATTACH]', $content);
         }
+        $content = preg_replace('/\[youtube\](.*?)\[\/youtube\]/i', '[video]$1[/video]', $content);
+        $content = preg_replace('/\[url\](.*?)\[\/url\]/i', '[video]$1[/video]', $content);
+        $content = preg_replace('/\[vimeo\](.*?)\[\/vimeo\]/i', '[video]$1[/video]', $content);
         return $content;
     }
     
