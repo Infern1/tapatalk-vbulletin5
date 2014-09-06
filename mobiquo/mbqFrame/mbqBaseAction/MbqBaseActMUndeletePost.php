@@ -27,7 +27,7 @@ Abstract Class MbqBaseActMUndeletePost extends MbqBaseAct {
             $oMbqAclEtForumPost = MbqMain::$oClk->newObj('MbqAclEtForumPost');
             if ($oMbqAclEtForumPost->canAclMUndeletePost($oMbqEtForumPost)) {    //acl judge
                 $oMbqWrEtForumPost = MbqMain::$oClk->newObj('MbqWrEtForumPost');
-                $oMbqWrEtForumPost->mUndeletePost($oMbqEtForumPost);
+                $oMbqWrEtForumPost->mUndeletePost($postId);
                 $this->data['result'] = true;
             } else {
                 MbqError::alert('', '', '', MBQ_ERR_APP);

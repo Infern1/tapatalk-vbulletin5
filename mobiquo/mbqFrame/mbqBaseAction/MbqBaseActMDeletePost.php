@@ -21,20 +21,19 @@ Abstract Class MbqBaseActMDeletePost extends MbqBaseAct {
         if (!MbqMain::$oMbqConfig->moduleIsEnable('forum')) {
             MbqError::alert('', "Not support module forum!", '', MBQ_ERR_NOT_SUPPORT);
         }
-        $postId = MbqMain::$input[0];
-        $mode = (int) MbqMain::$input[1];
+        $postId = MbqMain::$input[0] = 26;
+        $mode = (int) MbqMain::$input[1] = 1 ;
         if ($mode != 1 && $mode != 2) {
             MbqError::alert('', "Need valid mode!", '', MBQ_ERR_APP);
         }
-        if ($mode == 2) {
-            MbqError::alert('', "Sorry!Not support hard-delete a post!", '', MBQ_ERR_APP);
-        }
+        if ($mode == 2) MbqError::alert('', "Sorry!Not support hard-delete a post!", '', MBQ_ERR_APP);
+        $reason = MbqMain::$input[2];
         $oMbqRdEtForumPost = MbqMain::$oClk->newObj('MbqRdEtForumPost');
         if ($oMbqEtForumPost = $oMbqRdEtForumPost->initOMbqEtForumPost($postId, array('case' => 'byPostId'))) {
             $oMbqAclEtForumPost = MbqMain::$oClk->newObj('MbqAclEtForumPost');
             if ($oMbqAclEtForumPost->canAclMDeletePost($oMbqEtForumPost, $mode)) {    //acl judge
                 $oMbqWrEtForumPost = MbqMain::$oClk->newObj('MbqWrEtForumPost');
-                $oMbqWrEtForumPost->mDeletePost($oMbqEtForumPost, $mode);
+                $oMbqWrEtForumPost->mDeletePost($postId, $mode , $reason);
                 $this->data['result'] = true;
             } else {
                 MbqError::alert('', '', '', MBQ_ERR_APP);

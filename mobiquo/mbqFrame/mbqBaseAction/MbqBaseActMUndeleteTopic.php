@@ -27,7 +27,7 @@ Abstract Class MbqBaseActMUndeleteTopic extends MbqBaseAct {
             $oMbqAclEtForumTopic = MbqMain::$oClk->newObj('MbqAclEtForumTopic');
             if ($oMbqAclEtForumTopic->canAclMUndeleteTopic($oMbqEtForumTopic)) {    //acl judge
                 $oMbqWrEtForumTopic = MbqMain::$oClk->newObj('MbqWrEtForumTopic');
-                $oMbqWrEtForumTopic->mUndeleteTopic($oMbqEtForumTopic);
+                $oMbqWrEtForumTopic->mUndeleteTopic($topicId);
                 $this->data['result'] = true;
             } else {
                 MbqError::alert('', '', '', MBQ_ERR_APP);

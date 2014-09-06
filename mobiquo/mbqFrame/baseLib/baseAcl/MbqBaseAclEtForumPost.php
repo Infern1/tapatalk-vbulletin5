@@ -90,8 +90,15 @@ Abstract Class MbqBaseAclEtForumPost extends MbqBaseAcl {
      *
      * @return  Boolean
      */
-    public function canAclMDeletePost() {
-        MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
+    public function canAclMDeletePost($oMbqEtForumPost, $mode) {
+        if ($mode == 1) {   //soft-delete
+            if (!$oMbqEtForumPost->isDeleted->oriValue && $oMbqEtForumPost->canDelete->oriValue) {
+                return true;
+            }
+        } elseif ($mode == 2) { //hard-delete
+            //not support
+        }
+        return false;
     }
     
     /**
@@ -99,8 +106,11 @@ Abstract Class MbqBaseAclEtForumPost extends MbqBaseAcl {
      *
      * @return  Boolean
      */
-    public function canAclMUndeletePost() {
-        MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
+    public function canAclMUndeletePost($oMbqEtForumPost) {
+        if ($oMbqEtForumPost->isDeleted->oriValue && $oMbqEtForumPost->canDelete->oriValue) {
+            return true;
+        }
+        return false;
     }
     
     /**
@@ -119,6 +129,19 @@ Abstract Class MbqBaseAclEtForumPost extends MbqBaseAcl {
      */
     public function canAclMApprovePost() {
         MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
+    }
+    
+    /**
+     * judge isModeration
+     *
+     * @return  Boolean
+     */
+    public function isModeration(){
+        $session = vB::getCurrentSession();
+        if (!$session->validateCpsession()) {
+            MbqError::alert('', 'This action require a moderator authentication', '', MBQ_ERR_APP);
+        }
+        return true;
     }
   
 }

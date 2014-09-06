@@ -44,15 +44,22 @@ Abstract Class MbqBaseWrEtForumPost extends MbqBaseWr {
     /**
      * m_delete_post
      */
-    public function mDeletePost() {
-        MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
+    public function mDeletePost($nodeids, $mode, $reason='') {
+        ($mode == 2) ? $hard = true : $hard = false;
+        $delete = vB_Api::instance('node')->deleteNodes($nodeids, $hard, $reason);
+        if($delete === null || !$delete) {
+            MbqError::alert('', "Delete post failed!", '', MBQ_ERR_APP);
+        }
     }
     
     /**
      * m_undelete_post
      */
-    public function mUndeletePost() {
-        MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
+    public function mUndeletePost($nodeid) {
+        $delete = vB_Api::instance('node')->undeleteNodes($nodeid);
+        if ($delete === null || !empty($delete['errors'])) {
+            MbqError::alert('', "Undelete post failed!", '', MBQ_ERR_APP);
+        }
     }
     
     /**

@@ -31,7 +31,7 @@ Abstract Class MbqBaseActMCloseTopic extends MbqBaseAct {
             $oMbqAclEtForumTopic = MbqMain::$oClk->newObj('MbqAclEtForumTopic');
             if ($oMbqAclEtForumTopic->canAclMCloseTopic($oMbqEtForumTopic, $mode)) {    //acl judge
                 $oMbqWrEtForumTopic = MbqMain::$oClk->newObj('MbqWrEtForumTopic');
-                $oMbqWrEtForumTopic->mCloseTopic($oMbqEtForumTopic, $mode);
+                $oMbqWrEtForumTopic->mCloseTopic($topicId, $mode);
                 $this->data['result'] = true;
             } else {
                 MbqError::alert('', '', '', MBQ_ERR_APP);

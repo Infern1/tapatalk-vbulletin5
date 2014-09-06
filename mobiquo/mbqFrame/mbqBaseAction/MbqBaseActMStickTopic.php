@@ -26,12 +26,13 @@ Abstract Class MbqBaseActMStickTopic extends MbqBaseAct {
         if ($mode != 1 && $mode != 2) {
             MbqError::alert('', "Need valid mode!", '', MBQ_ERR_APP);
         }
+        $oCurJUser = MbqMain::$oMbqAppEnv->currentUserInfo;
         $oMbqRdEtForumTopic = MbqMain::$oClk->newObj('MbqRdEtForumTopic');
         if ($oMbqEtForumTopic = $oMbqRdEtForumTopic->initOMbqEtForumTopic($topicId, array('case' => 'byTopicId'))) {
             $oMbqAclEtForumTopic = MbqMain::$oClk->newObj('MbqAclEtForumTopic');
             if ($oMbqAclEtForumTopic->canAclMStickTopic($oMbqEtForumTopic, $mode)) {    //acl judge
                 $oMbqWrEtForumTopic = MbqMain::$oClk->newObj('MbqWrEtForumTopic');
-                $oMbqWrEtForumTopic->mStickTopic($oMbqEtForumTopic, $mode);
+                $oMbqWrEtForumTopic->mStickTopic($topicId, $mode);
                 $this->data['result'] = true;
             } else {
                 MbqError::alert('', '', '', MBQ_ERR_APP);

@@ -126,8 +126,17 @@ Abstract Class MbqBaseAclEtForumTopic extends MbqBaseAcl {
      *
      * @return  Boolean
      */
-    public function canAclMStickTopic() {
-        MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
+    public function canAclMStickTopic($oMbqEtForumTopic, $mode) {
+        if ($mode == 1) {   //stick
+            if ($oMbqEtForumTopic->canStick->oriValue && !$oMbqEtForumTopic->isSticky->oriValue) {
+                return true;
+            }
+        } elseif ($mode == 2) { //unstick
+            if ($oMbqEtForumTopic->canStick->oriValue && $oMbqEtForumTopic->isSticky->oriValue) {
+                return true;
+            }
+        }
+        return false;
     }
     
     /**
@@ -135,8 +144,17 @@ Abstract Class MbqBaseAclEtForumTopic extends MbqBaseAcl {
      *
      * @return  Boolean
      */
-    public function canAclMCloseTopic() {
-        MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
+    public function canAclMCloseTopic($oMbqEtForumTopic, $mode) {
+        if ($mode == 1) {   //reopen
+            if ($oMbqEtForumTopic->canClose->oriValue && $oMbqEtForumTopic->isClosed->oriValue) {
+                return true;
+            }
+        } elseif ($mode == 2) { //close
+            if ($oMbqEtForumTopic->canClose->oriValue && !$oMbqEtForumTopic->isClosed->oriValue) {
+                return true;
+            }
+        }
+        return false;
     }
     
     /**
@@ -144,8 +162,15 @@ Abstract Class MbqBaseAclEtForumTopic extends MbqBaseAcl {
      *
      * @return  Boolean
      */
-    public function canAclMDeleteTopic() {
-        MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
+    public function canAclMDeleteTopic($oMbqEtForumTopic, $mode) {
+       if ($mode == 1) {   //soft-delete
+            if (!$oMbqEtForumTopic->isDeleted->oriValue && $oMbqEtForumTopic->canDelete->oriValue) {
+                return true;
+            }
+        } elseif ($mode == 2) { //hard-delete
+            //not support
+        }
+        return false;
     }
     
     /**
@@ -153,8 +178,11 @@ Abstract Class MbqBaseAclEtForumTopic extends MbqBaseAcl {
      *
      * @return  Boolean
      */
-    public function canAclMUndeleteTopic() {
-        MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
+    public function canAclMUndeleteTopic($oMbqEtForumTopic) {
+        if ($oMbqEtForumTopic->isDeleted->oriValue && $oMbqEtForumTopic->canDelete->oriValue) {
+            return true;
+        }
+        return false;
     }
     
     /**
@@ -182,6 +210,18 @@ Abstract Class MbqBaseAclEtForumTopic extends MbqBaseAcl {
      */
     public function canAclMApproveTopic() {
         MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
+    }
+    /**
+     * judge isModeration
+     *
+     * @return  Boolean
+     */
+    public function isModeration(){
+        $session = vB::getCurrentSession();
+        if (!$session->validateCpsession()) {
+            MbqError::alert('', 'This action require a moderator authentication', '', MBQ_ERR_APP);
+        }
+        return true;
     }
   
 }
