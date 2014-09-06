@@ -115,6 +115,71 @@ Class MbqAclEtForumTopic extends MbqBaseAclEtForumTopic {
         return MbqMain::hasLogin();
     }
   
+    
+       /**
+     * judge can m_stick_topic
+     *
+     * @return  Boolean
+     */
+    public function canAclMStickTopic($oMbqEtForumTopic, $mode) {
+        if ($mode == 1) {   //stick
+            if ($oMbqEtForumTopic->canStick->oriValue && !$oMbqEtForumTopic->isSticky->oriValue) {
+                return true;
+            }
+        } elseif ($mode == 2) { //unstick
+            if ($oMbqEtForumTopic->canStick->oriValue && $oMbqEtForumTopic->isSticky->oriValue) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * judge can m_close_topic
+     *
+     * @return  Boolean
+     */
+    public function canAclMCloseTopic($oMbqEtForumTopic, $mode) {
+        if ($mode == 1) {   //reopen
+            if ($oMbqEtForumTopic->canClose->oriValue && $oMbqEtForumTopic->isClosed->oriValue) {
+                return true;
+            }
+        } elseif ($mode == 2) { //close
+            if ($oMbqEtForumTopic->canClose->oriValue && !$oMbqEtForumTopic->isClosed->oriValue) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * judge can m_delete_topic
+     *
+     * @return  Boolean
+     */
+    public function canAclMDeleteTopic($oMbqEtForumTopic, $mode) {
+       if ($mode == 1) {   //soft-delete
+            if (!$oMbqEtForumTopic->isDeleted->oriValue && $oMbqEtForumTopic->canDelete->oriValue) {
+                return true;
+            }
+        } elseif ($mode == 2) { //hard-delete
+            //not support
+        }
+        return false;
+    }
+    
+    /**
+     * judge can m_undelete_topic
+     *
+     * @return  Boolean
+     */
+    public function canAclMUndeleteTopic($oMbqEtForumTopic) {
+        if ($oMbqEtForumTopic->isDeleted->oriValue && $oMbqEtForumTopic->canDelete->oriValue) {
+            return true;
+        }
+        return false;
+    }
+    
 }
 
 ?>

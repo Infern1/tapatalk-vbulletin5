@@ -129,6 +129,35 @@ Class MbqAclEtForumPost extends MbqBaseAclEtForumPost {
             return MbqMain::hasLogin();
         }
     }
+    
+     /**
+     * judge can m_delete_post
+     *
+     * @return  Boolean
+     */
+    public function canAclMDeletePost($oMbqEtForumPost, $mode) {
+        if ($mode == 1) {   //soft-delete
+            if (!$oMbqEtForumPost->isDeleted->oriValue && $oMbqEtForumPost->canDelete->oriValue) {
+                return true;
+            }
+        } elseif ($mode == 2) { //hard-delete
+            //not support
+        }
+        return false;
+    }
+    
+    /**
+     * judge can m_undelete_post
+     *
+     * @return  Boolean
+     */
+    public function canAclMUndeletePost($oMbqEtForumPost) {
+        if ($oMbqEtForumPost->isDeleted->oriValue && $oMbqEtForumPost->canDelete->oriValue) {
+            return true;
+        }
+        return false;
+    }
+    
   
 }
 

@@ -107,6 +107,63 @@ Class MbqWrEtForumTopic extends MbqBaseWrEtForumTopic {
             }
         }
     }
+    
+    /**
+     * m_stick_topic
+     */
+    public function mStickTopic($threadid, $mode) {
+        if($mode==1){
+            $stick = vB_Api::instance('node')->setSticky(array($threadid));
+            if($stick === null || !empty($stick['errors'])) {
+                 MbqError::alert('', "Stick topic failed!", '', MBQ_ERR_APP);
+            }
+        }else{
+            $unstick = vB_Api::instance('node')->unsetSticky(array($threadid));
+            if($unstick === null || !empty($unstick['errors'])) {
+                MbqError::alert('', "Unstick topic failed!", '', MBQ_ERR_APP);
+            }
+        }
+
+    }
+    
+    /**
+     * m_close_topic
+     */
+    public function mCloseTopic($threadid, $mode) {
+        if($mode==1){
+            $unlock = vB_Api::instance('node')->openNode($threadid);
+            if ($unlock === null || !empty($unlock['errors'])) {
+                 MbqError::alert('', "Reopen topic failed!", '', MBQ_ERR_APP);
+            }
+        }else{
+            $lock = vB_Api::instance('node')->closeNode($threadid);
+            if($lock === null || !empty($lock['errors'])) {
+                MbqError::alert('', "Close topic failed!", '', MBQ_ERR_APP);
+            }
+        }
+    }
+    
+    /**
+     * m_delete_topic
+     */
+    public function mDeleteTopic($threadid, $mode, $reason) {
+        ($mode == 2) ? $hard = true : $hard = false;
+        $delete = vB_Api::instance('node')->deleteNodes(array($threadid), $hard, $reason);
+        if(empty($delete)) {
+             MbqError::alert('', "Delete topic failed!", '', MBQ_ERR_APP);
+        }
+    }
+    
+    /**
+     * m_undelete_topic
+     */
+    public function mUndeleteTopic($threadid) {
+        $delete = vB_Api::instance('node')->undeleteNodes(array($threadid));
+        if(empty($delete)) {
+             MbqError::alert('', "Undelete topic failed!", '', MBQ_ERR_APP);
+        }
+    }
+    
   
 }
 

@@ -128,6 +128,8 @@ Class MbqRdEtUser extends MbqBaseRdEtUser {
                 }
                 $oMbqEtUser->canSendPm->setOriValue(MbqBaseFdt::getFdt('MbqFdtUser.MbqEtUser.canSendPm.range.yes'));
             }
+            $oCurJUser = MbqMain::$oMbqAppEnv->currentUserInfo;
+            if($oCurJUser['is_moderator']) $oMbqEtUser->canModerate->setOriValue(MbqBaseFdt::getFdt('MbqFdtUser.MbqEtUser.canSendPm.range.yes'));
             $oMbqEtUser->maxAttachment->setOriValue(MbqMain::$oMbqAppEnv->exttOptions['maximages']);
             $oMbqEtUser->maxPngSize->setOriValue(MbqMain::$oMbqAppEnv->exttAttachmentcache['png']['size']);
             $jpgMaxSize = MbqMain::$oMbqAppEnv->exttAttachmentcache['jpg']['size'];

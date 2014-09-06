@@ -81,6 +81,28 @@ Class MbqWrEtForumPost extends MbqBaseWrEtForumPost {
             $var = $oMbqRdEtForumPost->initOMbqEtForumPost($var->postId->oriValue, array('case' => 'byPostId'));    //for get state
         }
     }
+    
+    
+    /**
+     * m_delete_post
+     */
+    public function mDeletePost($nodeids, $mode, $reason='') {
+        ($mode == 2) ? $hard = true : $hard = false;
+        $delete = vB_Api::instance('node')->deleteNodes($nodeids, $hard, $reason);
+        if($delete === null || !$delete) {
+            MbqError::alert('', "Delete post failed!", '', MBQ_ERR_APP);
+        }
+    }
+    
+    /**
+     * m_undelete_post
+     */
+    public function mUndeletePost($nodeid) {
+        $delete = vB_Api::instance('node')->undeleteNodes($nodeid);
+        if ($delete === null || !empty($delete['errors'])) {
+            MbqError::alert('', "Undelete post failed!", '', MBQ_ERR_APP);
+        }
+    }
   
 }
 
