@@ -71,10 +71,10 @@ Class MbqRdEtForumPost extends MbqBaseRdEtForumPost {
      */
     public function getObjsMbqEtForumPost($var, $mbqOpt) {
         if ($mbqOpt['case'] == 'byTopic') {
-            $oMbqEtForumTopic = $var;
+            $oMbqEtForumPost = $var;
             if ($mbqOpt['oMbqDataPage']) {
                 $oMbqDataPage = $mbqOpt['oMbqDataPage'];
-            	$search['channel'] = $oMbqEtForumTopic->topicId->oriValue;
+            	$search['channel'] = $oMbqEtForumPost->topicId->oriValue;
             	//$search['contenttypeid'] = vB_Api::instanceInternal('contenttype')->fetchContentTypeIdFromClass('Text');
             	$search['view'] = vB_Api_Search::FILTER_VIEW_CONVERSATION_THREAD;
             	//$search['depth'] = EXTTMBQ_NO_LIMIT_DEPTH;
@@ -251,7 +251,6 @@ Class MbqRdEtForumPost extends MbqBaseRdEtForumPost {
      */
     public function initOMbqEtForumPost($var, $mbqOpt) {
         if ($mbqOpt['case'] == 'postRecord') {
-            //k($var);
             $nodeid = $var['content']['nodeid'];
             $result = vB_Api::instanceInternal('content_text')->getDataForParse(array($nodeid));
             //the $result[$nodeid]['bbcodeoptions'] caused guest can see limited content for example:image,so removed it
@@ -276,11 +275,67 @@ Class MbqRdEtForumPost extends MbqBaseRdEtForumPost {
             $oMbqEtForumPost->postContent->setTmlDisplayValue(htmlspecialchars_decode($this->processContentForDisplay($macro, true, $oMbqEtForumPost)));
             $oMbqEtForumPost->postContent->setTmlDisplayValueNoHtml(htmlspecialchars_decode($this->processContentForDisplay($macro, false, $oMbqEtForumPost)));
             $oMbqEtForumPost->shortContent->setOriValue(MbqMain::$oMbqCm->getShortContent($oMbqEtForumPost->postContent->tmlDisplayValue));
+            
+            /* add info theard */
+           
+            if (!$var['showpublished'] && $var['deleteuserid']) {
+                $oMbqEtForumPost->isDeleted->setOriValue(MbqBaseFdt::getFdt('MbqFdtForum.MbqEtForumTopic.isDeleted.range.yes'));
+            } else {
+                $oMbqEtForumPost->isDeleted->setOriValue(MbqBaseFdt::getFdt('MbqFdtForum.MbqEtForumTopic.isDeleted.range.no'));
+            }
+
+            if ($var['approved'] == 1) {
+                $oMbqEtForumPost->isApproved->setOriValue(MbqBaseFdt::getFdt('MbqFdtForum.MbqEtForumTopic.isApproved.range.yes'));
+            } else {
+                $oMbqEtForumPost->isApproved->setOriValue(MbqBaseFdt::getFdt('MbqFdtForum.MbqEtForumTopic.isApproved.range.no'));
+            }
+            
             if ($var['content']['approved']) {
                 $oMbqEtForumPost->state->setOriValue(MbqBaseFdt::getFdt('MbqFdtForum.MbqEtForumPost.state.range.postOk'));
             } else {
                 $oMbqEtForumPost->state->setOriValue(MbqBaseFdt::getFdt('MbqFdtForum.MbqEtForumPost.state.range.postOkNeedModeration'));
             }
+            
+            
+             if (MbqMain::hasLogin()) {
+                
+                /* add moderation */
+                $oCurJUser = (object) MbqMain::$oMbqAppEnv->currentUserInfo;
+                $moderatorperms = (object) $var['content']['moderatorperms'];
+               
+                
+                if ($oMbqEtForumPost->isDeleted->oriValue) {
+                    if ($moderatorperms->candeleteposts) {
+                        $oMbqEtForumPost->canDelete->setOriValue(MbqBaseFdt::getFdt('MbqFdtForum.MbqEtForumTopic.canDelete.range.yes'));
+                    } else {
+                        $oMbqEtForumPost->canDelete->setOriValue(MbqBaseFdt::getFdt('MbqFdtForum.MbqEtForumTopic.canDelete.range.no'));
+                    }
+                } else {
+                    if ($moderatorperms->candeleteposts) {
+                        $oMbqEtForumPost->canDelete->setOriValue(MbqBaseFdt::getFdt('MbqFdtForum.MbqEtForumTopic.canDelete.range.yes'));
+                    } else {
+                        $oMbqEtForumPost->canDelete->setOriValue(MbqBaseFdt::getFdt('MbqFdtForum.MbqEtForumTopic.canDelete.range.no'));
+                    }
+                }
+                
+                
+                if ($moderatorperms->canmove) {
+                    $oMbqEtForumPost->canApprove->setOriValue(MbqBaseFdt::getFdt('MbqFdtForum.MbqEtForumTopic.canApprove.range.yes'));
+                } else {
+                    $oMbqEtForumPost->canApprove->setOriValue(MbqBaseFdt::getFdt('MbqFdtForum.MbqEtForumTopic.canApprove.range.no'));
+                }
+                if ($moderatorperms->canmove) {
+                    $oMbqEtForumPost->canMove->setOriValue(MbqBaseFdt::getFdt('MbqFdtForum.MbqEtForumTopic.canClose.range.yes'));
+                } else {
+                    $oMbqEtForumPost->canMove->setOriValue(MbqBaseFdt::getFdt('MbqFdtForum.MbqEtForumTopic.canClose.range.no'));
+                }
+                
+                /* end moderation */
+                
+            }
+            
+            
+            
             return $oMbqEtForumPost;
         } elseif ($mbqOpt['case'] == 'byPostId') {
             $objsMbqEtForumPost = $this->getObjsMbqEtForumPost(array($var), array('case' => 'byPostIds'));

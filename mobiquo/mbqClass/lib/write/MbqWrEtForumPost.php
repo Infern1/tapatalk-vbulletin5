@@ -104,6 +104,52 @@ Class MbqWrEtForumPost extends MbqBaseWrEtForumPost {
         }
     }
   
+    /**
+     * m_undelete_post
+     */
+    public function mMovePost($postids, $destforumid, $title='') {
+        
+        $cleaner = vB::getCleaner();
+        $postids = $cleaner->clean($postids, vB_Cleaner::TYPE_STR);
+        $title = $cleaner->clean($title, vB_Cleaner::TYPE_STR);
+        $destforumid = $cleaner->clean($destforumid, vB_Cleaner::TYPE_UINT);
+        $postids = explode(',', $postids);
+        $postids = array_map("trim", $postids);
+        if (empty($postids)) {
+            MbqError::alert('', "Need valid threads!", '', MBQ_ERR_APP);
+        }
+        if (empty($destforumid)) {
+            MbqError::alert('', "Need valid forum!", '', MBQ_ERR_APP);
+        }
+        $result = vB_Api::instance('node')->moveNodes($postids, $destforumid, true, $title);
+        if ($result === null || isset($result['errors'])) {
+            MbqError::alert('', vB_Library::instance('vb4_functions')->getErrorResponse($result), '', MBQ_ERR_APP);
+        }
+
+    }
+    
+   
+    
+    /**
+     * m_approve_post
+     *
+     * @param  Object  $oMbqEtForumTopic
+     * @param  Integer  $mode
+     */
+    public function mApprovePost($tlist, $mode) {
+        
+        if ($mode == 1) {
+            $result = vB_Api::instance('node')->setApproved(array($tlist), true);
+        } elseif ($mode == 2) {
+            $result = vB_Api::instance('node')->setApproved(array($tlist), false);
+        } else {
+            MbqError::alert('', "Need valid mode!", '', MBQ_ERR_APP);
+        }
+        if ($result === null || isset($result['errors'])) {
+            MbqError::alert('', vB_Library::instance('vb4_functions')->getErrorResponse($result), '', MBQ_ERR_APP);
+        }
+    }
+    
 }
 
 ?>

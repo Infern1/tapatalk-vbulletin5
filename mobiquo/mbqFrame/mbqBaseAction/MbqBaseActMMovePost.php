@@ -31,12 +31,14 @@ Abstract Class MbqBaseActMMovePost extends MbqBaseAct {
         $oMbqEtForumPost = $oMbqRdEtForumPost->initOMbqEtForumPost($postId, array('case' => 'byPostId'));
         $oMbqEtForumTopic = $oMbqRdEtForumTopic->initOMbqEtForumTopic($topicId, array('case' => 'byTopicId'));
         $objsMbqEtForum = $oMbqRdEtForum->getObjsMbqEtForum(array($forumId), array('case' => 'byForumIds'));
+
         if ($oMbqEtForumPost && (($oMbqEtForum = $objsMbqEtForum[0]) || $oMbqEtForumTopic)) {
             $oMbqAclEtForumPost = MbqMain::$oClk->newObj('MbqAclEtForumPost');
             if ($oMbqAclEtForumPost->canAclMMovePost($oMbqEtForumPost, $oMbqEtForum, $oMbqEtForumTopic)) {    //acl judge
                 $oMbqWrEtForumPost = MbqMain::$oClk->newObj('MbqWrEtForumPost');
-                $oMbqWrEtForumPost->mMovePost($oMbqEtForumPost, $oMbqEtForum, $oMbqEtForumTopic, $topicTitle);
+                $oMbqWrEtForumPost->mMovePost($postId, $topicId, $topicTitle);
                 $this->data['result'] = true;
+
             } else {
                 MbqError::alert('', '', '', MBQ_ERR_APP);
             }

@@ -164,6 +164,42 @@ Class MbqWrEtForumTopic extends MbqBaseWrEtForumTopic {
         }
     }
     
+    /**
+     * m_undelete_topic
+     */
+    public function mMoveTopic($threadid, $destforumid) {
+        $moved = vB_Api::instance('node')->moveNodes(array($threadid), $destforumid, true);
+        if($moved === null || isset($moved['errors'])) {
+             MbqError::alert('', "Move topic failed!", '', MBQ_ERR_APP);
+        }
+    }
+    
+    /**
+     * m_undelete_topic
+     */
+    public function mRenameTopic($threadid, $title) {
+        MbqError::alert('', "Not support rename topic!", '', MBQ_ERR_APP);
+    }
+    
+    /**
+     * m_approve_topic
+     *
+     * @param  Object  $oMbqEtForumTopic
+     * @param  Integer  $mode
+     */
+    public function mApproveTopic($tlist, $mode) {
+        
+        if ($mode == 1) {
+            $result = vB_Api::instance('node')->setApproved(array($tlist), true);
+        } elseif ($mode == 2) {
+            $result = vB_Api::instance('node')->setApproved(array($tlist), false);
+        } else {
+            MbqError::alert('', "Need valid mode!", '', MBQ_ERR_APP);
+        }
+        if ($result === null || isset($result['errors'])) {
+            MbqError::alert('', vB_Library::instance('vb4_functions')->getErrorResponse($result), '', MBQ_ERR_APP);
+        }
+    }
   
 }
 

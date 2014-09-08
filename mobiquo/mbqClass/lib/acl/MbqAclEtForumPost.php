@@ -31,22 +31,22 @@ Class MbqAclEtForumPost extends MbqBaseAclEtForumPost {
     /**
      * judge can reply post
      *
-     * @param  Object  $oMbqEtForumTopic
+     * @param  Object  $oMbqEtForumPost
      * @return  Boolean
      */
-    public function canAclReplyPost($oMbqEtForumTopic) {
+    public function canAclReplyPost($oMbqEtForumPost) {
         
-        if ( MbqMain::hasLogin() && ((MbqMain::$oMbqAppEnv->exttOptions['templateversion'] < '5.1.0' && $oMbqEtForumTopic->mbqBind['topicRecord']['content']['can_comment']) || (MbqMain::$oMbqAppEnv->exttOptions['templateversion'] >= '5.1.0' && $oMbqEtForumTopic->mbqBind['topicRecord']['content']['canreply']))
+        if ( MbqMain::hasLogin() && ((MbqMain::$oMbqAppEnv->exttOptions['templateversion'] < '5.1.0' && $oMbqEtForumPost->mbqBind['topicRecord']['content']['can_comment']) || (MbqMain::$oMbqAppEnv->exttOptions['templateversion'] >= '5.1.0' && $oMbqEtForumPost->mbqBind['topicRecord']['content']['canreply']))
         &&
-        vB_Api::instanceInternal('user')->hasPermissions('createpermissions', 'vbforum_text', $oMbqEtForumTopic->topicId->oriValue)
+        vB_Api::instanceInternal('user')->hasPermissions('createpermissions', 'vbforum_text', $oMbqEtForumPost->topicId->oriValue)
         ) {
-        //if (MbqMain::hasLogin() && $oMbqEtForumTopic->mbqBind['topicRecord']['content']['can_comment'] && vB_Api::instanceInternal('user')->hasPermissions('createpermissions', 'vbforum_text', $oMbqEtForumTopic->topicId->oriValue)) {
+        //if (MbqMain::hasLogin() && $oMbqEtForumPost->mbqBind['topicRecord']['content']['can_comment'] && vB_Api::instanceInternal('user')->hasPermissions('createpermissions', 'vbforum_text', $oMbqEtForumPost->topicId->oriValue)) {
             if (
-            ($oMbqEtForumTopic->mbqBind['topicRecord']['content']['showopen'] || (!$oMbqEtForumTopic->mbqBind['topicRecord']['content']['showopen'] && $oMbqEtForumTopic->mbqBind['topicRecord']['content']['canmoderate'])) 
+            ($oMbqEtForumPost->mbqBind['topicRecord']['content']['showopen'] || (!$oMbqEtForumPost->mbqBind['topicRecord']['content']['showopen'] && $oMbqEtForumPost->mbqBind['topicRecord']['content']['canmoderate'])) 
             && 
-            ($oMbqEtForumTopic->mbqBind['topicRecord']['content']['showapproved'] || (!$oMbqEtForumTopic->mbqBind['topicRecord']['content']['showapproved'] && $oMbqEtForumTopic->mbqBind['topicRecord']['content']['canmoderate'])) 
+            ($oMbqEtForumPost->mbqBind['topicRecord']['content']['showapproved'] || (!$oMbqEtForumPost->mbqBind['topicRecord']['content']['showapproved'] && $oMbqEtForumPost->mbqBind['topicRecord']['content']['canmoderate'])) 
             && 
-            ($oMbqEtForumTopic->mbqBind['topicRecord']['content']['showpublished'] || (!$oMbqEtForumTopic->mbqBind['topicRecord']['content']['showpublished'] && $oMbqEtForumTopic->mbqBind['topicRecord']['content']['canmoderate']))
+            ($oMbqEtForumPost->mbqBind['topicRecord']['content']['showpublished'] || (!$oMbqEtForumPost->mbqBind['topicRecord']['content']['showpublished'] && $oMbqEtForumPost->mbqBind['topicRecord']['content']['canmoderate']))
             )  {
                 return true;
             }
@@ -158,6 +158,42 @@ Class MbqAclEtForumPost extends MbqBaseAclEtForumPost {
         return false;
     }
     
+    
+    /**
+     * judge can m_move_post
+     *
+     * @param  Object  $oMbqEtForumPost
+     * @param  Object  $oMbqEtForum
+     * @return  Boolean
+     */
+    public function canAclMMovePost($oMbqEtForumPost, $oMbqEtForum) {
+        if ($oMbqEtForumPost->canMove->oriValue) {
+            return true;
+        }
+        return false;
+    }
+    
+   
+    
+    /**
+     * judge can m_approve_post
+     *
+     * @param  Object  $oMbqEtForumPost
+     * @param  Integer  $mode
+     * @return  Boolean
+     */
+    public function canAclMApprovePost($oMbqEtForumPost, $mode) {
+        if ($mode == 1) {   //approve
+            if ($oMbqEtForumPost->canApprove->oriValue && !$oMbqEtForumPost->isApproved->oriValue) {
+                return true;
+            }
+        } elseif ($mode == 2) { //unapprove
+            if ($oMbqEtForumPost->canApprove->oriValue && $oMbqEtForumPost->isApproved->oriValue) {
+                return true;
+            }
+        }
+        return false;
+    }
   
 }
 

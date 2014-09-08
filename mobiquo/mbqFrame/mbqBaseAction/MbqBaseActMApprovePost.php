@@ -31,7 +31,7 @@ Abstract Class MbqBaseActMApprovePost extends MbqBaseAct {
             $oMbqAclEtForumPost = MbqMain::$oClk->newObj('MbqAclEtForumPost');
             if ($oMbqAclEtForumPost->canAclMApprovePost($oMbqEtForumPost, $mode)) {    //acl judge
                 $oMbqWrEtForumPost = MbqMain::$oClk->newObj('MbqWrEtForumPost');
-                $oMbqWrEtForumPost->mApprovePost($oMbqEtForumPost, $mode);
+                $oMbqWrEtForumPost->mApprovePost($postId, $mode);
                 $this->data['result'] = true;
             } else {
                 MbqError::alert('', '', '', MBQ_ERR_APP);
