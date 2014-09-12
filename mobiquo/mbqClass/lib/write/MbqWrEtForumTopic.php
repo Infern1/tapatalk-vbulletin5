@@ -201,6 +201,15 @@ Class MbqWrEtForumTopic extends MbqBaseWrEtForumTopic {
         }
     }
   
+    /**
+     * m_merge_topic
+     */
+    public function mMergeTopic($topicIdA, $topicIdB ,$redirect) {
+        $result = vB_Api::instance('node')->mergeTopics(array($topicIdA, $topicIdB), $topicIdA , array($redirect));
+        if ($result === null || isset($result['errors'])) {
+            MbqError::alert('', "Can not merge topic!", '', MBQ_ERR_APP);
+        }
+    }
 }
 
 ?>

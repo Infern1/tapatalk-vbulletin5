@@ -30,7 +30,24 @@ Abstract Class MbqBaseAclEtUser extends MbqBaseAcl {
     public function canAclMBanUser() {
         MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
     }
+    
+    /**
+     * judge can m_mark_as_spam
+     *
+     * @return  Boolean
+     */
+    public function canAclMMarkAsSpam() {
+        MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
+    }
   
+    /**
+     * judge can m_ban_user
+     *
+     * @return  Boolean
+     */
+    public function canAclMUnbanUser() {
+        MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
+    }
 
     /**
     * judge can update_password

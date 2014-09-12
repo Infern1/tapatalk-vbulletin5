@@ -15,27 +15,41 @@ Abstract Class MbqBaseWrEtUser extends MbqBaseWr {
     /**
      * m_ban_user
      */
-    protected function mBanUser() {
+    public function mBanUser() {
         MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
     }
 
     /**
+     * m_ban_user
+     */
+    public function mUnbanUser() {
+        MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
+    }
+    
+    /**
+     * m_mark_as_spam
+     */
+    public function mMarkAsSpam() {
+        MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
+    }
+    
+    /**
     * register user
     */
-    protected function registerUser() {
+    public function registerUser() {
         MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
     }
 
     /**
     * update password
     */
-    protected function updatePassword() {
+    public function updatePassword() {
         MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
     }
 
     /**
     * update email
     */
-    protected function updateEmail() { }
+    public function updateEmail() { }
 }
 ?>

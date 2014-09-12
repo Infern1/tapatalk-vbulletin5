@@ -195,6 +195,21 @@ Class MbqAclEtForumPost extends MbqBaseAclEtForumPost {
         return false;
     }
   
+    
+    /**
+     * judge can m_merge_post
+     *
+     * @return  Boolean
+     */
+    public function canAclMMergePost($oMbqEtForumPost) {
+        if ($oMbqEtForumPost->canMove->oriValue) {
+            return true;
+        }
+        return false;
+    }
+    
+    
+    
 }
 
 ?>

@@ -22,17 +22,18 @@ Abstract Class MbqBaseActMBanUser extends MbqBaseAct {
             MbqError::alert('', "Not support module user!", '', MBQ_ERR_NOT_SUPPORT);
         }
         $userName = MbqMain::$input[0];
-        $mode = MbqMain::$input[1];
+        $mode = MbqMain::$input[1] ;
         $reasonText = MbqMain::$input[2];
         $oMbqRdEtUser = MbqMain::$oClk->newObj('MbqRdEtUser');
         if ($mode != 1 && $mode != 2) {
             MbqError::alert('', "Need valid mode!", '', MBQ_ERR_APP);
         }
+        //vB::getUserContext()->isModerator();
         if ($oMbqEtUser = $oMbqRdEtUser->initOMbqEtUser($userName, array('case' => 'byLoginName'))) {
             $oMbqAclEtUser = MbqMain::$oClk->newObj('MbqAclEtUser');
             if ($oMbqAclEtUser->canAclMBanUser($oMbqEtUser, $mode)) {   //acl judge
                 $oMbqWrEtUser = MbqMain::$oClk->newObj('MbqWrEtUser');
-                $oMbqWrEtUser->mBanUser($oMbqEtUser, $mode, $reasonText);
+                $oMbqWrEtUser->mUnbanUser($oMbqEtUser);
                 $this->data['result'] = true;
             } else {
                 MbqError::alert('', '', '', MBQ_ERR_APP);

@@ -150,6 +150,50 @@ Class MbqWrEtForumPost extends MbqBaseWrEtForumPost {
         }
     }
     
+    function getTextTopic($postIds){
+        $nodes = vB_Library::instance('node')->getNodes($postIds);
+        $text = array();
+        foreach ($nodes as $node) $text[] = $node['rawtext'];
+        return implode('<br>', $text);
+    }
+    
+     /**
+     * m_merge_post
+     */
+    public function mMergePost($postIds, $postId) {
+        if(is_array($postIds)) $postIds[] = $postId;
+        else $postIds = $postIds . ',' . $postId;
+        if(!is_array($postIds)) $postIds = explode (',', $postIds);
+        $oCurJUser = MbqMain::$oMbqAppEnv->currentUserInfo;
+        $input = array(
+            0 => array(
+                'name' => 'text',
+                'value' => $this->getTextTopic($postIds)
+            ),
+            1 => array(
+                'name' => 'mergePosts',
+                'value' => $postIds
+            ),
+            2 => array(
+                'name' => 'destnodeid',
+                'value' => $postIds[0],
+            ),
+            3 => array(
+                'name' => 'destauthorid',
+                'value' => $oCurJUser['userid'],
+            ),
+            4 => array(
+                'name' => 'contenttype',
+                'value' => 'text',
+            )
+        );
+        
+        $result = vB_Api::instance('node')->mergePosts($input);
+        if ($result === null || isset($result['errors'])) {
+            MbqError::alert('', 'Can not merge posts!', '', MBQ_ERR_APP);
+        }
+    }
+    
 }
 
 ?>

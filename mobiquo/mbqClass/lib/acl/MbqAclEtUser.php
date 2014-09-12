@@ -31,6 +31,26 @@ Class MbqAclEtUser extends MbqBaseAclEtUser {
         return false;
     }
   
+    /**
+     * judge can m_ban_user
+     *
+     * @return  Boolean
+     */
+    public function canAclMBanUser($oMbqEtUser, $mode) {
+        if (MbqMain::hasLogin() && $oMbqEtUser->userId->oriValue) return true;
+        return false;
+    }
+    
+    /**
+     * judge can m_mark_as_spam
+     *
+     * @return  Boolean
+     */
+    public function canAclMMarkAsSpam($oMbqEtUser) {
+        if (MbqMain::hasLogin() && $oMbqEtUser->userId->oriValue) return true;
+        return false;
+    }
+    
 }
 
 ?>

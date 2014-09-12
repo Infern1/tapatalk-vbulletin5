@@ -104,6 +104,13 @@ Class MbqBaseWrEtForumTopic extends MbqBaseWr {
         MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
     }
   
+    /**
+     * m_merge_topic
+     */
+    public function mMergeTopic() {
+        MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
+    }
+    
 }
 
 ?>

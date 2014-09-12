@@ -224,6 +224,18 @@ Class MbqAclEtForumTopic extends MbqBaseAclEtForumTopic {
         return false;
     }
 
+    /**
+     * judge can m_merge_topic
+     *
+     * @return  Boolean
+     */
+    public function canAclMMergeTopic($oMbqEtForumTopicA, $oMbqEtForumTopicB) {
+        if ($oMbqEtForumTopicA->canMove->oriValue && $oMbqEtForumTopicB->canMove->oriValue) {
+            return true;
+        }
+        return false;
+    }
+    
     
     
 }

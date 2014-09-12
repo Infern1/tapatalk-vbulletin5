@@ -121,6 +121,15 @@ Abstract Class MbqBaseAclEtForumPost extends MbqBaseAcl {
         MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
     }
     
+    /**
+     * judge can m_merge_post
+     *
+     * @return  Boolean
+     */
+    public function canAclMMergePost() {
+        MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
+    }
+    
   
 }
 

@@ -21,8 +21,8 @@ Abstract Class MbqBaseActMDeletePost extends MbqBaseAct {
         if (!MbqMain::$oMbqConfig->moduleIsEnable('forum')) {
             MbqError::alert('', "Not support module forum!", '', MBQ_ERR_NOT_SUPPORT);
         }
-        $postId = MbqMain::$input[0] = 26;
-        $mode = (int) MbqMain::$input[1] = 1 ;
+        $postId = MbqMain::$input[0];
+        $mode = (int) MbqMain::$input[1];
         if ($mode != 1 && $mode != 2) {
             MbqError::alert('', "Need valid mode!", '', MBQ_ERR_APP);
         }
