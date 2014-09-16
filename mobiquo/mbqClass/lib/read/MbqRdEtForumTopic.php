@@ -231,6 +231,16 @@ Class MbqRdEtForumTopic extends MbqBaseRdEtForumTopic {
         MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_UNKNOWN_CASE);
     }
     
+    public function isRead($node) {
+        $userinfo = vB_Api::instance('user')->fetchUserInfo();
+	$options = vB::get_datastore()->get_value('options');
+        $readtime = (!empty($node['readtime']) ? $node['readtime'] : vB_Api::instance('node')->getNodeReadTime($node['nodeid']) );
+        $cutoff = vB::getRequest()->getTimeNow() - ($options['markinglimit'] * 86400);
+        if($readtime < $cutoff) $readtime = $cutoff;
+        if($readtime < $node['parentreadtime']) $readtime = $node['parentreadtime'];
+        return $readtime > $node['lastcontent'];
+    }
+    
     /**
      * init one forum topic by condition
      *
@@ -285,7 +295,7 @@ Class MbqRdEtForumTopic extends MbqBaseRdEtForumTopic {
             
             if (MbqMain::hasLogin()) {
                 //if ($var['content']['lastcontent'] > MbqMain::$oCurMbqEtUser->mbqBind['userRecord']['lastactivity']) {    //inaccurate
-                if ($var['content']['lastcontent'] > MbqMain::$oMbqAppEnv->currentUserInfo['lastactivity']) {
+                if (!$this->isRead($var)) {
                     $oMbqEtForumTopic->newPost->setOriValue(MbqBaseFdt::getFdt('MbqFdtForum.MbqEtForumTopic.newPost.range.yes'));
                 } else {
                     $oMbqEtForumTopic->newPost->setOriValue(MbqBaseFdt::getFdt('MbqFdtForum.MbqEtForumTopic.newPost.range.no'));

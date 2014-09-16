@@ -30,7 +30,7 @@ Abstract Class MbqBaseActLogin extends MbqBaseAct {
             $oTapatalkPush = new TapatalkPush();
             $oTapatalkPush->callMethod('doAfterAppLogin');
         } else {
-            $this->data['result'] = false;
+            MbqError::alert('', "Username and password do not match or you do not have an account yet.", '', MBQ_ERR_APP);
         }
     }
   

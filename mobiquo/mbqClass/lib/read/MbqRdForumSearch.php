@@ -64,13 +64,14 @@ Class MbqRdForumSearch extends MbqBaseRdForumSearch {
                 $mbqOpt['oMbqDataPage'] = $oMbqDataPage;
                 return $oMbqRdEtForumTopic->getObjsMbqEtForumTopic($nodeIds, $mbqOpt);
                 /* common end */
-            } elseif ($mbqOpt['case'] == 'getLatestTopic') {
+            } elseif ($mbqOpt['case'] == 'getLatestTopic' || $mbqOpt['case'] == 'getUnreadTopic') {
                 $top = vB_Api::instance('content_channel')->fetchTopLevelChannelIds();
                 $search['channel'] = $top['forum'];
                 $search['view'] = vB_Api_Search::FILTER_VIEW_TOPIC;
                 $search['depth'] = EXTTMBQ_NO_LIMIT_DEPTH;
                 $search['sort']['lastcontent'] = 'desc';
                 $search['exclude'] = MbqMain::$oMbqAppEnv->hideForumIds;
+                if($mbqOpt['unread']) $search['unread_only'] = true;
                 try {
                     $result = vB_Api::instanceInternal('search')->getInitialResults($search, $oMbqDataPage->numPerPage, $oMbqDataPage->curPage, true);
                     if (!MbqMain::$oMbqAppEnv->exttHasErrors($result)) {
@@ -93,8 +94,6 @@ Class MbqRdForumSearch extends MbqBaseRdForumSearch {
                 $mbqOpt['oMbqDataPage'] = $oMbqDataPage;
                 return $oMbqRdEtForumTopic->getObjsMbqEtForumTopic($nodeIds, $mbqOpt);
                 /* common end */
-            } elseif ($mbqOpt['case'] == 'getUnreadTopic') {
-                MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NOT_ACHIEVE);
             }
         } elseif ($mbqOpt['case'] == 'searchTopic') {
             $oMbqRdEtForumTopic = MbqMain::$oClk->newObj('MbqRdEtForumTopic');

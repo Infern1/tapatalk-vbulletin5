@@ -213,7 +213,7 @@ Abstract Class MbqFdtConfig extends MbqBaseFdt {
                 )
             ),
             'goto_unread' => array(
-                'default' => 0,
+                'default' => 1,
                 'range' => array (
                     'support' => 1,
                     'notSupport' => 0
@@ -343,7 +343,7 @@ Abstract Class MbqFdtConfig extends MbqBaseFdt {
                 )
             ),
             'can_unread' => array(
-                'default' => 0,
+                'default' => 1,
                 'range' => array (
                     'support' => 1,
                     'notSupport' => 0
