@@ -71,9 +71,17 @@ Class MbqRdForumSearch extends MbqBaseRdForumSearch {
                 $search['depth'] = EXTTMBQ_NO_LIMIT_DEPTH;
                 $search['sort']['lastcontent'] = 'desc';
                 $search['exclude'] = MbqMain::$oMbqAppEnv->hideForumIds;
-                if($mbqOpt['unread']) $search['unread_only'] = true;
+                if(!empty($mbqOpt['unread'])) $search['unread_only'] = true;
                 try {
                     $result = vB_Api::instanceInternal('search')->getInitialResults($search, $oMbqDataPage->numPerPage, $oMbqDataPage->curPage, true);
+                    if($search['unread_only']){
+                        foreach ($result['results'] as $nodeid=>$node){
+                            if($oMbqRdEtForumTopic->isRead($node)){
+                                unset($result['results'][$nodeid]);
+                                $result['totalRecords']--;
+                            }
+                        }
+                    }
                     if (!MbqMain::$oMbqAppEnv->exttHasErrors($result)) {
                         $oMbqDataPage->totalNum = $result['totalRecords'];
                         $arrTopicRecord = $result['results'];
@@ -169,7 +177,6 @@ Class MbqRdForumSearch extends MbqBaseRdForumSearch {
         }
         MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_UNKNOWN_CASE);
     }
-  
 }
 
 ?>

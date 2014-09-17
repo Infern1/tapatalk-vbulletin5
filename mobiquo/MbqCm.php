@@ -60,6 +60,7 @@ Class MbqCm extends MbqBaseCm {
         $content = preg_replace('/\[youtube\](.*?)\[\/youtube\]/i', '[video]$1[/video]', $content);
         $content = preg_replace('/\[url\](.*?)\[\/url\]/i', '[video]$1[/video]', $content);
         $content = preg_replace('/\[vimeo\](.*?)\[\/vimeo\]/i', '[video]$1[/video]', $content);
+        $content = str_replace(PHP_EOL, '<br/>' , $content);
         return $content;
     }
     
