@@ -106,10 +106,13 @@ Class MbqRdEtUser extends MbqBaseRdEtUser {
             $oMbqEtUser->loginName->setOriValue($var['username']);
             $oMbqEtUser->userName->setOriValue($var['username']);
             $oMbqEtUser->userGroupIds->setOriValue(array($var['usergroupid']));
-            $iconUrl = vB_Api::instanceInternal('user')->fetchAvatar($var['userid'], true);
-            $iconUrl = $iconUrl['avatarpath'];
-            $iconUrl = MbqMain::$oMbqAppEnv->baseUrlCore . '/' . $iconUrl;
-            $oMbqEtUser->iconUrl->setOriValue($iconUrl);
+            $avatar = vB_Api::instanceInternal('user')->fetchAvatar($var['userid'], true);
+            if($avatar['avatarpath'] != 'images/default/default_avatar_thumb.png')
+            {
+                $iconUrl = $avatar['avatarpath'];
+                $iconUrl = MbqMain::$oMbqAppEnv->baseUrlCore . '/' . $iconUrl;
+                $oMbqEtUser->iconUrl->setOriValue($iconUrl);
+            }
             $oMbqEtUser->canSearch->setOriValue(MbqBaseFdt::getFdt('MbqFdtUser.MbqEtUser.canSearch.range.yes'));
             $oMbqEtUser->postCount->setOriValue($var['posts']);
             if ($var['status']) {
