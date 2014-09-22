@@ -56,7 +56,7 @@ Class MbqRdEtForumTopic extends MbqBaseRdEtForumTopic {
                 $search['sort']['lastcontent'] = 'desc';
                 try {
                     $result = vB_Api::instanceInternal('search')->getInitialResults($search, $oMbqDataPage->numPerPage, $oMbqDataPage->curPage, true);
-                    if (!MbqMain::$oMbqAppEnv->exttHasErrors($result)) {
+                    if (!MbqMain::$oMbqAppEnv->exttHasErrors($result) && $oMbqDataPage->curPage == $result['pagenumber']) {
                         $oMbqDataPage->totalNum = $result['totalRecords'];
                         $arrTopicRecord = $result['results'];
                     } else {
@@ -160,13 +160,17 @@ Class MbqRdEtForumTopic extends MbqBaseRdEtForumTopic {
             return $this->getObjsMbqEtForumTopic($arrTopicRecord, $mbqOpt);
             /* common end */
         } elseif ($mbqOpt['case'] == 'byArrTopicRecord') {
-            $arrTopicRecord = $var;
+            //$arrTopicRecord = $var;
             /* common begin */
             $objsMbqEtForumTopic = array();
             $authorUserIds = array();
             $lastReplyUserIds = array();
-            $forumIds = array();
+            $forumIds = $oTopic = array();
             $topicIds = array();
+            foreach ($var as $jView){
+                $oTopic[$jView['nodeid']] = $jView;
+            }
+            $arrTopicRecord = vB_Api::instance('node')->mergeNodeviewsForTopics($oTopic);
             foreach ($arrTopicRecord as $topicRecord) {
                 $objsMbqEtForumTopic[] = $this->initOMbqEtForumTopic($topicRecord, array('case' => 'byTopicRecord'));
             }
@@ -263,7 +267,7 @@ Class MbqRdEtForumTopic extends MbqBaseRdEtForumTopic {
             //$oMbqEtForumTopic->shortContent->setOriValue(MbqMain::$oMbqCm->getShortContent($var['content']['rawtext']));
             $oMbqEtForumTopic->shortContent->setOriValue(MbqMain::$oMbqCm->getShortContent(htmlspecialchars_decode($var['content']['rawtext'])));
             $oMbqEtForumTopic->topicAuthorId->setOriValue($var['content']['starteruserid']);
-            $oMbqEtForumTopic->lastReplyAuthorId->setOriValue($var['content']['lastauthorid']);
+            $oMbqEtForumTopic->lastReplyAuthorId->setOriValue(( $var['content']['lastauthorid'])?$var['content']['lastauthorid'] : $var['content']['starteruserid'] );
             //$oMbqEtForumTopic->postTime->setOriValue($var['content']['created']);
             $oMbqEtForumTopic->postTime->setOriValue($var['content']['lastcontent'] ? $var['content']['lastcontent'] : $var['content']['created']);
             $oMbqEtForumTopic->lastReplyTime->setOriValue($var['content']['lastcontent']);
@@ -353,7 +357,7 @@ Class MbqRdEtForumTopic extends MbqBaseRdEtForumTopic {
             } else {
                 $oMbqEtForumTopic->newPost->setOriValue(MbqBaseFdt::getFdt('MbqFdtForum.MbqEtForumTopic.newPost.range.no'));
             }
-            $oMbqEtForumTopic->viewNumber->setOriValue(0);
+            $oMbqEtForumTopic->viewNumber->setOriValue( (int) $var['content']['views']);
             if ($var['content']['approved']) {
                 $oMbqEtForumTopic->state->setOriValue(MbqBaseFdt::getFdt('MbqFdtForum.MbqEtForumTopic.state.range.postOk'));
             } else {
