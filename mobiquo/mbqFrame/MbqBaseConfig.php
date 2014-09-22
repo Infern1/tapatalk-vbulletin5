@@ -221,6 +221,7 @@ Abstract Class MbqBaseConfig {
         MbqMain::$oClk->reg('MbqIoHandleJson', MBQ_IO_HANDLE_PATH.'MbqIoHandleJson.php');
         MbqMain::$oClk->reg('MbqIoHandleAdvJson', MBQ_IO_HANDLE_PATH.'MbqIoHandleAdvJson.php');
         /* base action class */
+        MbqMain::$oClk->reg('MbqBaseActAvatar', MBQ_BASE_ACTION_PATH.'MbqBaseActAvatar.php');
         MbqMain::$oClk->reg('MbqBaseActGetConfig', MBQ_BASE_ACTION_PATH.'MbqBaseActGetConfig.php');
         MbqMain::$oClk->reg('MbqBaseActGetForum', MBQ_BASE_ACTION_PATH.'MbqBaseActGetForum.php');
         MbqMain::$oClk->reg('MbqBaseActGetTopic', MBQ_BASE_ACTION_PATH.'MbqBaseActGetTopic.php');
@@ -299,6 +300,7 @@ Abstract Class MbqBaseConfig {
         MbqMain::$oClk->reg('MbqBaseActForgetPassword', MBQ_BASE_ACTION_PATH.'MbqBaseActForgetPassword.php');
         MbqMain::$oClk->reg('MbqBaseActRegister', MBQ_BASE_ACTION_PATH.'MbqBaseActRegister.php');
         /* action class */
+        MbqMain::$oClk->reg('MbqActAvatar', MBQ_ACTION_PATH.'MbqActAvatar.php');
         MbqMain::$oClk->reg('MbqActGetConfig', MBQ_ACTION_PATH.'MbqActGetConfig.php');
         MbqMain::$oClk->reg('MbqActGetForum', MBQ_ACTION_PATH.'MbqActGetForum.php');
         MbqMain::$oClk->reg('MbqActGetTopic', MBQ_ACTION_PATH.'MbqActGetTopic.php');

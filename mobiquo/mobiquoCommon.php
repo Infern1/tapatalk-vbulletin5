@@ -47,11 +47,15 @@ Abstract Class MbqMain extends MbqBaseMain {
         if (isset($_GET['method_name']) && $_GET['method_name']) {     //for more flexibility
             self::$cmd = $_GET['method_name'];
         }
-        if (isset($_POST['method_name']) && $_POST['method_name']) {    //for upload_attach and other post method
+        else if (isset($_POST['method_name']) && $_POST['method_name']) {    //for upload_attach and other post method
             self::$cmd = $_POST['method_name'];
             foreach ($_POST as $k => $v) {
                 self::$input[$k] = $v;
             }
+        }
+        else if(strpos($_SERVER['PHP_SELF'],'avatar.php') !== false)
+        {
+            self::$cmd = "avatar";
         }
         if (self::$cmd) {
             self::$cmd = (string) self::$cmd;
