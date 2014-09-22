@@ -9,6 +9,37 @@
 	<dependencies>
 	</dependencies>
 	<codes>
+            <code version="*">
+                <installcode>
+                    <![CDATA[
+                        $vbulletin->db->hide_errors();
+                        $vbulletin->db->query_write("DROP TABLE IF EXISTS " . TABLE_PREFIX . "`tapatalk_push_user`");
+                        $vbulletin->db->query("
+                            CREATE TABLE ". TABLE_PREFIX. "`tapatalk_push_user` (
+                              `user_id` int(11) NOT NULL DEFAULT '0',
+                              `create_time` int(11) NOT NULL DEFAULT '0',
+                              `update_time` int(11) NOT NULL DEFAULT '0',
+                              PRIMARY KEY (`user_id`)
+                            )
+                        ");
+                        $vbulletin->db->query_write("DROP TABLE IF EXISTS " . TABLE_PREFIX . "`tapatalk_status`");
+                        $vbulletin->db->query("
+                            CREATE TABLE " . TABLE_PREFIX . "`tapatalk_status` (
+                              `status_info` text NOT NULL,
+                              `create_time` int(11) NOT NULL DEFAULT '0',
+                              `update_time` int(11) NOT NULL DEFAULT '0'
+                            )
+                        ");
+                    ]]>
+                </installcode>
+                <uninstallcode>
+                    <![CDATA[
+                        $vbulletin->db->hide_errors();
+                        $vbulletin->db->query_write("DROP TABLE IF EXISTS " . TABLE_PREFIX . "`tapatalk_push_user`;");
+                        $vbulletin->db->query_write("DROP TABLE IF EXISTS " . TABLE_PREFIX . "`tapatalk_status`;");
+                    ]]>
+                </uninstallcode>
+            </code>
 	</codes>
 	<templates>
 		<template name="tapatalk_detect_js" templatetype="template" date="1367137140" username="admin" version="0.1.0"><![CDATA[<!-- out of date and useless code
@@ -56,6 +87,10 @@ var functionCallAfterWindowLoad = 0;
 			<arguments />
 		</hook>
 	</hooks>
+        
+        
+       
+        
 	<phrases>
 		<phrasetype name="vBulletin Settings" fieldname="vbsettings">
 			<phrase name="setting_app_android_id_desc" date="1370669838" username="admin" version="0.1.1"><![CDATA[Enter your BYO App ID from Google Play, to be used on Android device. E.g. "com.quoord.tapatalkpro.activity"]]></phrase>
