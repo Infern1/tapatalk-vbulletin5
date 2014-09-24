@@ -180,8 +180,14 @@ Class MbqWrEtForumTopic extends MbqBaseWrEtForumTopic {
     /**
      * m_undelete_topic
      */
-    public function mRenameTopic($threadid, $title) {
-        MbqError::alert('', "Not support rename topic!", '', MBQ_ERR_APP);
+    public function mRenameTopic($topicId, $title) {
+        $topic = array(
+            'title' => $title
+        );
+        $result = vB_Api::instance('content_text')->update($topicId, $topic);
+        if(empty($result) || isset($moved['errors']) ){
+             MbqError::alert('', "Rename topic failed!", '', MBQ_ERR_APP);
+        }
     }
     
     /**
