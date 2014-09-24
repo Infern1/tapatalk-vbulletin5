@@ -87,7 +87,7 @@ Class MbqRdEtPc extends MbqBaseRdEtPc {
                     }
                 }
                 $oMbqDataPage->totalNum = count($ids);
-                krsort($ids);
+                if(MbqMain::$cmd != 'get_conversations') krsort($ids);
                 $nodeIds = array();
                 $i = 1;
                 foreach ($ids as $nodeId) {
@@ -168,7 +168,7 @@ Class MbqRdEtPc extends MbqBaseRdEtPc {
                     }
                 }
             }
-            krsort($objsMbqEtPc);
+            if(MbqMain::$cmd != 'get_conversations') krsort($objsMbqEtPc);
             if ($mbqOpt['oMbqDataPage']) {
                 $oMbqDataPage = $mbqOpt['oMbqDataPage'];
                 $oMbqDataPage->datas = $objsMbqEtPc;

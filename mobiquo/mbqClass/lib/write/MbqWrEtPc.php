@@ -46,7 +46,7 @@ Class MbqWrEtPc extends MbqBaseWrEtPc {
      * @param  Integer  $mode
      */
     public function deleteConversation($oMbqEtPc, $mode) {
-        if ($mode == 1) {
+        if ($mode ==1 || $mode == 2) {
             try {
                 $result = vB_Api::instance('content_privatemessage')->toTrashcan($oMbqEtPc->convId->oriValue);
                 if (!MbqMain::$oMbqAppEnv->exttHasErrors($result)) {

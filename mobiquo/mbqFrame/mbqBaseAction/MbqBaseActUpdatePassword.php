@@ -24,10 +24,12 @@ Abstract Class MbqBaseActUpdatePassword extends MbqBaseAct {
         if (MbqMain::$oMbqConfig->getCfg('user.inappreg')->oriValue != MbqBaseFdt::getFdt('MbqFdtConfig.user.inappreg.range.support')) {
             MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NOT_SUPPORT);
         }
+        $oldPassword = MbqMain::$input[0] = '123456';
+        $newPassword = MbqMain::$input[1] = '121212';
         $oMbqAclEtUser = MbqMain::$oClk->newObj('MbqAclEtUser');
         if ($oMbqAclEtUser->canAclUpdatePassword()) {
             $oMbqWrEtUser = MbqMain::$oClk->newObj('MbqWrEtUser');
-            $this->data = $oMbqWrEtUser->updatePassword();
+            $this->data = $oMbqWrEtUser->updatePassword($oldPassword, $newPassword);
         } else {
             MbqError::alert('', '', '', MBQ_ERR_APP);
         }

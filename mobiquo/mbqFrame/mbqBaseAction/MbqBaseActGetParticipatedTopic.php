@@ -21,6 +21,7 @@ Abstract Class MbqBaseActGetParticipatedTopic extends MbqBaseAct {
         if (!MbqMain::$oMbqConfig->moduleIsEnable('forum')) {
             MbqError::alert('', "Not support module forum!", '', MBQ_ERR_NOT_SUPPORT);
         }
+        $userName = MbqMain::$input[0];
         $startNum = (int) MbqMain::$input[1];
         $lastNum = (int) MbqMain::$input[2];
         $oMbqDataPage = MbqMain::$oClk->newObj('MbqDataPage');
@@ -33,17 +34,23 @@ Abstract Class MbqBaseActGetParticipatedTopic extends MbqBaseAct {
             'perpage' => $oMbqDataPage->numPerPage
         );
         $filter['showposts'] = 0;
-        $oMbqAclEtForumTopic = MbqMain::$oClk->newObj('MbqAclEtForumTopic');
-        if ($oMbqAclEtForumTopic->canAclGetParticipatedTopic()) {    //acl judge
-            $oMbqRdForumSearch = MbqMain::$oClk->newObj('MbqRdForumSearch');
-            $oMbqDataPage = $oMbqRdForumSearch->forumAdvancedSearch($filter, $oMbqDataPage, array('case' => 'getParticipatedTopic', 'participated' => true));
-            $oMbqRdEtForumTopic = MbqMain::$oClk->newObj('MbqRdEtForumTopic');
-            $this->data['result'] = true;
-            $this->data['total_topic_num'] = (int) $oMbqDataPage->totalNum;
-            $this->data['total_unread_num'] = (int) $oMbqDataPage->totalUnreadNum;
-            $this->data['topics'] = $oMbqRdEtForumTopic->returnApiArrDataForumTopic($oMbqDataPage->datas);
-        } else {
-            MbqError::alert('', '', '', MBQ_ERR_APP);
+        
+        $oMbqRdEtUser = MbqMain::$oClk->newObj('MbqRdEtUser');
+        if ($oMbqEtUser = $oMbqRdEtUser->initOMbqEtUser($userName, array('case' => 'byLoginName'))) {
+            $oMbqAclEtForumTopic = MbqMain::$oClk->newObj('MbqAclEtForumTopic');
+            if ($oMbqAclEtForumTopic->canAclGetParticipatedTopic()) {    //acl judge
+                $oMbqRdForumSearch = MbqMain::$oClk->newObj('MbqRdForumSearch');
+                $oMbqDataPage = $oMbqRdForumSearch->forumAdvancedSearch($filter, $oMbqDataPage, array('case' => 'getParticipatedTopic', 'participated' => true));
+                $oMbqRdEtForumTopic = MbqMain::$oClk->newObj('MbqRdEtForumTopic');
+                $this->data['result'] = true;
+                $this->data['total_topic_num'] = (int) $oMbqDataPage->totalNum;
+                $this->data['total_unread_num'] = (int) $oMbqDataPage->totalUnreadNum;
+                $this->data['topics'] = $oMbqRdEtForumTopic->returnApiArrDataForumTopic($oMbqDataPage->datas);
+            } else {
+                MbqError::alert('', '', '', MBQ_ERR_APP);
+            }
+        }else{
+            MbqError::alert('', "User not found!", '', MBQ_ERR_APP);
         }
     }
   

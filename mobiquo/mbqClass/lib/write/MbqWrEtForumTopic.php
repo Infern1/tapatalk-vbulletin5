@@ -37,13 +37,16 @@ Class MbqWrEtForumTopic extends MbqBaseWrEtForumTopic {
      */
     public function markForumTopicRead(&$var = NULL, $mbqOpt = array()) {
         if ($mbqOpt['case'] == 'markAllAsRead') {
-            MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NOT_ACHIEVE);
+            $mark = vB_Api::instance('node')->markChannelsRead();
         } else {
             if (is_array($var)) {
-                MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NOT_ACHIEVE);
+                $mark = vB_Api::instance('node')->markReadMultiple($var);
             } else {
-                $result = vB_Api::instance('node')->markRead($var->topicId->oriValue);
+                $mark = vB_Api::instance('node')->markRead($var->topicId->oriValue);
             }
+        }
+        if($mark === null || !empty($mark['errors'])) {
+            MbqError::alert('', "Mark topic failed!", '', MBQ_ERR_APP);
         }
     }
     

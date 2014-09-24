@@ -45,6 +45,7 @@ Class MbqEtUser extends MbqBaseEntity {
     public $isSpam;
     public $reputation;     /* reputation system provides a way of rating users based on the quality of their posts. Users can add or subtract reputation points from other users.  */
     public $customFieldsList;
+    public $postCountdown;
     
     public $pmUnreadCount;      /* returns total number of private message with unread message inside. */
     public $pcUnreadCount;   /* returns total number of private conversations with unread message inside. */
@@ -86,6 +87,7 @@ Class MbqEtUser extends MbqBaseEntity {
         $this->canMarkSpam = clone MbqMain::$simpleV;
         $this->isSpam = clone MbqMain::$simpleV;
         $this->reputation = clone MbqMain::$simpleV;
+        $this->postCountdown = clone MbqMain::$simpleV;
         $this->customFieldsList = clone MbqMain::$simpleV;
         
         $this->pmUnreadCount = clone MbqMain::$simpleV;

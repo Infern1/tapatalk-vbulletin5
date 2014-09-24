@@ -58,6 +58,15 @@ Abstract Class MbqBaseAclEtUser extends MbqBaseAcl {
         MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
     }
     
+    /**
+    * judge can update_email
+    *
+    * @return Boolean
+    */
+    public function canAclUpdateEmail() {
+        MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
+    }
+    
 }
 
 ?>

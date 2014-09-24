@@ -33,7 +33,7 @@ Class MbqRdForumSearch extends MbqBaseRdForumSearch {
             	$search['authorid'] = MbqMain::$oCurMbqEtUser->userId->oriValue;
             	$search['contenttypeid'] = vB_Api::instanceInternal('contenttype')->fetchContentTypeIdFromClass('Text');
             	$search['depth'] = EXTTMBQ_NO_LIMIT_DEPTH;
-	            $search['sort']['publishdate'] = 'desc';
+                $search['sort']['publishdate'] = 'desc';
             	$search['exclude'] = MbqMain::$oMbqAppEnv->hideForumIds;
                 try {
                     $result = vB_Api::instanceInternal('search')->getInitialResults($search, 100000, 1, true);
@@ -73,14 +73,18 @@ Class MbqRdForumSearch extends MbqBaseRdForumSearch {
                 $search['exclude'] = MbqMain::$oMbqAppEnv->hideForumIds;
                 if(!empty($mbqOpt['unread'])) $search['unread_only'] = true;
                 try {
-                    $result = vB_Api::instanceInternal('search')->getInitialResults($search, $oMbqDataPage->numPerPage, $oMbqDataPage->curPage, true);
-                    if($search['unread_only']){
+                    if($mbqOpt['case'] == 'getUnreadTopic'){
+                        $result = vB_Api::instanceInternal('search')->getInitialResults($search, 500, $oMbqDataPage->curPage, true);
                         foreach ($result['results'] as $nodeid=>$node){
                             if($oMbqRdEtForumTopic->isRead($node)){
                                 unset($result['results'][$nodeid]);
                                 $result['totalRecords']--;
                             }
                         }
+                        $oMbqDataPage->totalUnreadNum = $result['totalRecords'];
+                        $result['results'] = array_slice($result['results'], $oMbqDataPage->startNum, $oMbqDataPage->numPerPage);    
+                    }else{
+                        $result = vB_Api::instanceInternal('search')->getInitialResults($search, $oMbqDataPage->numPerPage, $oMbqDataPage->curPage, true);
                     }
                     if (!MbqMain::$oMbqAppEnv->exttHasErrors($result)) {
                         $oMbqDataPage->totalNum = $result['totalRecords'];
@@ -89,6 +93,7 @@ Class MbqRdForumSearch extends MbqBaseRdForumSearch {
                         $oMbqDataPage->totalNum = 0;
                         $arrTopicRecord = array();
                     }
+                    
                 } catch (Exception $e) {
                     $oMbqDataPage->totalNum = 0;
                     $arrTopicRecord = array();

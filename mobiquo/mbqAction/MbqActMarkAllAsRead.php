@@ -20,8 +20,7 @@ Class MbqActMarkAllAsRead extends MbqBaseActMarkAllAsRead {
      * action implement
      */
     public function actionImplement() {
-        //parent::actionImplement();
-        $this->data['result'] = false;  //Temporary program
+        parent::actionImplement();
     }
   
 }

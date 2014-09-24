@@ -78,7 +78,7 @@ Class MbqAclEtPc extends MbqBaseAclEtPc {
      * @return  Boolean
      */
     public function canAclDeleteConversation($oMbqEtPc, $mode) {
-        if (MbqMain::hasLogin() && ($mode == 1)) {
+        if (MbqMain::hasLogin() && ($mode == 1 ||  $mode == 2) ) {
             foreach ($oMbqEtPc->objsRecipientMbqEtUser as $oRecipientMbqEtUser) {
                 if ($oRecipientMbqEtUser->userId->oriValue == MbqMain::$oCurMbqEtUser->userId->oriValue) {
                     return true;

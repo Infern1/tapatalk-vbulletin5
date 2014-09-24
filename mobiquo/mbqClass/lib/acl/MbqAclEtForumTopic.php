@@ -63,6 +63,16 @@ Class MbqAclEtForumTopic extends MbqBaseAclEtForumTopic {
     }
     
     /**
+     * judge can mark all my unread topics as read
+     *
+     * @return  Boolean
+     */
+    public function canAclMarkAllAsRead() {
+       return MbqMain::hasLogin();
+    }
+    
+    
+    /**
      * judge can get_unread_topic
      *
      * @return  Boolean

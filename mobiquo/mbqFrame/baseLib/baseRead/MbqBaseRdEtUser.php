@@ -144,6 +144,12 @@ Abstract Class MbqBaseRdEtUser extends MbqBaseRd {
         if ($oMbqEtUser->customFieldsList->hasSetOriValue()) {
             $data['custom_fields_list'] = (array) MbqMain::$oMbqCm->changeArrValueToString($oMbqEtUser->customFieldsList->oriValue);
         }
+        
+        if ($oMbqEtUser->postCountdown->hasSetOriValue()) {
+            $data['post_countdown'] = (string) $oMbqEtUser->postCountdown->oriValue;
+        }
+        
+        
         return $data;
     }
     

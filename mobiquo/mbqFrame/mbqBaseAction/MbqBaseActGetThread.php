@@ -21,7 +21,7 @@ Abstract Class MbqBaseActGetThread extends MbqBaseAct {
         if (!MbqMain::$oMbqConfig->moduleIsEnable('forum')) {
             MbqError::alert('', "Not support module forum!", '', MBQ_ERR_NOT_SUPPORT);
         }
-        $topicId = MbqMain::$input[0];
+        $topicId = MbqMain::$input[0] = 18;
         $startNum = (int) MbqMain::$input[1];
         $lastNum = (int) MbqMain::$input[2];
         $returnHtml = (boolean) MbqMain::$input[3];
@@ -38,6 +38,8 @@ Abstract Class MbqBaseActGetThread extends MbqBaseAct {
                 $this->data['can_upload'] = (boolean) $oMbqEtForumTopic->oMbqEtForum->canUpload->oriValue;
                 $this->data['posts'] = $oMbqRdEtForumPost->returnApiArrDataForumPost($oMbqDataPage->datas, $returnHtml);
 
+                k($this->data);
+                exit;
                 $oMbqWrEtForumTopic = MbqMain::$oClk->newObj('MbqWrEtForumTopic');
                 /* add forum topic view num */
                 $oMbqWrEtForumTopic->addForumTopicViewNum($oMbqEtForumTopic);

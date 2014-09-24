@@ -51,6 +51,24 @@ Class MbqAclEtUser extends MbqBaseAclEtUser {
         return false;
     }
     
+    /**
+    * judge can update_password
+    *
+    * @return Boolean
+    */
+    public function canAclUpdatePassword() {
+        return MbqMain::hasLogin();
+    }
+    
+    /**
+    * judge can update_email
+    *
+    * @return Boolean
+    */
+    public function canAclUpdateEmail() {
+        return MbqMain::hasLogin();
+    }
+    
 }
 
 ?>

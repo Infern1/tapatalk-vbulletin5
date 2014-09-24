@@ -71,6 +71,7 @@ Abstract Class MbqBaseCm {
         //remove useless bbcode end
         $str = html_entity_decode($str, ENT_QUOTES, 'UTF-8');
         $str = function_exists('mb_substr') ? mb_substr($str, 0, $length) : substr($str, 0, $length);
+        $str = preg_replace('/<br\s*\/?>/i', ' ', $str);
         $str = strip_tags($str);
         /* get short content standard code end */
         return $str;

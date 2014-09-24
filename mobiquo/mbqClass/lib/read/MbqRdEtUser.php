@@ -117,6 +117,7 @@ Class MbqRdEtUser extends MbqBaseRdEtUser {
             } else {
                 $displayText = $var['usertitle'];
             }
+            $oMbqEtUser->postCountdown->setOriValue(MbqMain::$oMbqAppEnv->exttOptions['floodchecktime']);
             $oMbqEtUser->displayText->setOriValue($displayText);
             $oMbqEtUser->regTime->setOriValue($var['joindate']);
             $oMbqEtUser->lastActivityTime->setOriValue($var['lastactivity']);

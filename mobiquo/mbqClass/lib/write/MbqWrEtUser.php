@@ -61,6 +61,34 @@ Class MbqWrEtUser extends MbqBaseWrEtUser {
         $stopForumSpam->markAsSpam($userinfo['username'], $userinfo['ipaddress'], '' , $userinfo['email']);
     }
     
+     /**
+    * update password
+    */
+    public function updatePassword($oldPassword, $newPassword) {
+        $extra = array(
+            'newpass'   => $newPassword,
+            'password'  => $oldPassword
+        );
+        $result = vB_Api::instance('node')->saveEmailPassword($extra);
+        if(empty($result)){
+            MbqError::alert('', 'Update password fail!', '', MBQ_ERR_APP);
+        } 
+    }
+
+    /**
+    * update email
+    */
+    public function updateEmail($password, $email) {
+        $extra = array(
+            'email'   => $email,
+            'password'  => $password
+        );
+        $result = vB_Api::instance('node')->saveEmailPassword($extra);
+        if(empty($result)){
+            MbqError::alert('', 'Update email fail!', '', MBQ_ERR_APP);
+        } 
+        
+    }
 }
 
 ?>
