@@ -170,8 +170,9 @@ Class MbqWrEtForumTopic extends MbqBaseWrEtForumTopic {
     /**
      * m_undelete_topic
      */
-    public function mMoveTopic($threadid, $destforumid) {
-        $moved = vB_Api::instance('node')->moveNodes(array($threadid), $destforumid, true);
+    public function mMoveTopic($threadid, $destforumid, $redirect) {
+        if($redirect) $redirect = array('redirect' => 'perm');
+        $moved = vB_Api::instance('node')->moveNodes(array($threadid), $destforumid, true, false, true, $redirect);
         if($moved === null || isset($moved['errors'])) {
              MbqError::alert('', "Move topic failed!", '', MBQ_ERR_APP);
         }

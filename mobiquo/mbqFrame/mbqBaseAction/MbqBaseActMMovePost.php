@@ -36,7 +36,7 @@ Abstract Class MbqBaseActMMovePost extends MbqBaseAct {
             $oMbqAclEtForumPost = MbqMain::$oClk->newObj('MbqAclEtForumPost');
             if ($oMbqAclEtForumPost->canAclMMovePost($oMbqEtForumPost, $oMbqEtForum, $oMbqEtForumTopic)) {    //acl judge
                 $oMbqWrEtForumPost = MbqMain::$oClk->newObj('MbqWrEtForumPost');
-                $oMbqWrEtForumPost->mMovePost($postId, $topicId, $topicTitle);
+                $oMbqWrEtForumPost->mMovePost($postId, $topicId, $forumId ,$topicTitle);
                 $this->data['result'] = true;
 
             } else {

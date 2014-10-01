@@ -33,15 +33,11 @@ Class MbqCm extends MbqBaseCm {
      * @return  Array
      */
     public function getAttIdsFromContent($content) {
-        if (MbqMain::$oMbqAppEnv->exttOptions['templateversion'] >= '5.0.2') {  //fixed compatible issue in vb5.0.2 when displaying attachments
-            return array();
+        preg_match_all('/\[img\].*?\/fetch\?filedataid=([0-9]{1,10}).*?\[\/img\]/i', $content, $math);
+        if ($math[1]) {
+            return $math[1];
         } else {
-            preg_match_all('/\[ATTACH=CONFIG\]n([^\[]*?)\[\/ATTACH\]/i', $content, $mat);
-            if ($mat[1]) {
-                return $mat[1];
-            } else {
-                return array();
-            }
+            return array();
         }
     }
     
@@ -52,11 +48,7 @@ Class MbqCm extends MbqBaseCm {
      * @return  String
      */
     public function exttConvertAppAttBbcodeToNativeCode($content) {
-        if (MbqMain::$oMbqAppEnv->exttOptions['templateversion'] >= '5.0.2') {  //fixed compatible issue in vb5.0.2 when saving attachments
-            $content = preg_replace('/\[ATTACH\]([^\[]*?)\[\/ATTACH\]/i', '[IMG]'.MbqMain::$oMbqAppEnv->rootUrl.'/filedata/fetch?filedataid=$1[/IMG]', $content);
-        } else {
-            $content = preg_replace('/\[ATTACH\]([^\[]*?)\[\/ATTACH\]/i', '[ATTACH=CONFIG]n$1[/ATTACH]', $content);
-        }
+        $content = preg_replace('/\[ATTACH\]([^\[]*?)\[\/ATTACH\]/i', '[IMG]'.MbqMain::$oMbqAppEnv->rootUrl.'/filedata/fetch?filedataid=$1[/IMG]', $content);
         $content = preg_replace('/\[youtube\](.*?)\[\/youtube\]/i', '[video]$1[/video]', $content);
         $content = preg_replace('/\[url\](.*?)\[\/url\]/i', '[video]$1[/video]', $content);
         $content = preg_replace('/\[vimeo\](.*?)\[\/vimeo\]/i', '[video]$1[/video]', $content);

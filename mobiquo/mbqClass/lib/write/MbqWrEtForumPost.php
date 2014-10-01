@@ -107,8 +107,8 @@ Class MbqWrEtForumPost extends MbqBaseWrEtForumPost {
     /**
      * m_undelete_post
      */
-    public function mMovePost($postids, $destforumid, $title='') {
-        
+    public function mMovePost($postids, $topicId, $destforumid, $title='') {
+
         $cleaner = vB::getCleaner();
         $postids = $cleaner->clean($postids, vB_Cleaner::TYPE_STR);
         $title = $cleaner->clean($title, vB_Cleaner::TYPE_STR);
@@ -116,10 +116,10 @@ Class MbqWrEtForumPost extends MbqBaseWrEtForumPost {
         $postids = explode(',', $postids);
         $postids = array_map("trim", $postids);
         if (empty($postids)) {
-            MbqError::alert('', "Need valid threads!", '', MBQ_ERR_APP);
+            MbqError::alert('', "Need valid post id!", '', MBQ_ERR_APP);
         }
         if (empty($destforumid)) {
-            MbqError::alert('', "Need valid forum!", '', MBQ_ERR_APP);
+            MbqError::alert('', "Need valid forum id!", '', MBQ_ERR_APP);
         }
         $result = vB_Api::instance('node')->moveNodes($postids, $destforumid, true, $title);
         if ($result === null || isset($result['errors'])) {

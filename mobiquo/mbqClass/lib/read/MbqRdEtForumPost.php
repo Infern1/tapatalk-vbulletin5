@@ -255,8 +255,7 @@ Class MbqRdEtForumPost extends MbqBaseRdEtForumPost {
             $result = vB_Api::instanceInternal('content_text')->getDataForParse(array($nodeid));
             //the $result[$nodeid]['bbcodeoptions'] caused guest can see limited content for example:image,so removed it
             $macro = vB5_Template_NodeText::instance()->register($nodeid);
-			
-			
+		
             //$macro = vB5_Template_NodeText::instance()->register($nodeid, $result[$nodeid]['bbcodeoptions']);
             vB5_Template_NodeText::instance()->replacePlaceholders($macro);
 			
@@ -275,6 +274,10 @@ Class MbqRdEtForumPost extends MbqBaseRdEtForumPost {
             $oMbqEtForumPost->postContent->setTmlDisplayValue(htmlspecialchars_decode($this->processContentForDisplay($macro, true, $oMbqEtForumPost)));
             $oMbqEtForumPost->postContent->setTmlDisplayValueNoHtml(htmlspecialchars_decode($this->processContentForDisplay($macro, false, $oMbqEtForumPost)));
             $oMbqEtForumPost->shortContent->setOriValue(MbqMain::$oMbqCm->getShortContent($oMbqEtForumPost->postContent->tmlDisplayValue));
+            
+                        
+            
+           
             
             /* add info theard */
            
@@ -351,7 +354,6 @@ Class MbqRdEtForumPost extends MbqBaseRdEtForumPost {
     public function getDataLink($node){
         $link = '<br />';
         $contenttype = vB_Types::instance()->getContentTypes();
-        
         foreach ($contenttype as $type){
             if(isset($node['contenttypeid']) and $node['contenttypeid']==$type['id'] ) $link = $this->get($type['class'], $node);
         }
@@ -375,6 +377,21 @@ Class MbqRdEtForumPost extends MbqBaseRdEtForumPost {
     
     public function getPicture($node){
         return $img = '[img]' . MbqMain::$oMbqAppEnv->rootUrl.'/filedata/fetch?linkid='.$node['link_nodeid'] . '[/img]';
+    }
+    
+    function processContentAttachFile($post, $node){
+        $attach = $node['content']['attach'];
+        if($attach){
+            preg_match_all('/\[img\].*?\/fetch\?filedataid=([0-9]{1,10}).*?\[\/img\]/i', $post, $math);
+            if($math[1]) foreach ($attach as $file){
+               foreach ($math[1] as $fid){
+                   if($file['filedataid'] == $fid){
+                       $post = preg_replace("/\[img\].*\/fetch\?filedataid=$fid.*\[\/img\]/i", '[IMG]'.MbqMain::$oMbqAppEnv->rootUrl.'/filedata/fetch?id='.$file['nodeid'].'[/IMG]', $post);		
+                   }
+               }
+            }
+        }
+       return $post;
     }
     
     public function getVideo($node){
@@ -424,6 +441,7 @@ Class MbqRdEtForumPost extends MbqBaseRdEtForumPost {
 		
         $post = $content;
 
+
         if ($returnHtml) {
             //MbqCm::writeLog($content."\n\n\n\n--------------------------------------------------------\n\n\n\n", true);
             if ($obj->mbqBind['bbcodeoptions']['allowsmilies']) {
@@ -442,6 +460,8 @@ Class MbqRdEtForumPost extends MbqBaseRdEtForumPost {
             	*/
             } else {
             }
+
+            
             if ($obj->mbqBind['bbcodeoptions']['allowbbcode']) {
     	        $post = preg_replace('/<div class="bbcode_container">.*?<div class="bbcode_quote">.*?<div class="quote_container">.*?<div class="bbcode_quote_container vb-icon vb-icon-quote-large"><\/div>.*?<div class="bbcode_postedby">.*?<strong>(.*?)<\/strong>.*?<\/div>.*?<div class="message">(.*?)<\/div>.*?<\/div>.*?<\/div>.*?<\/div>/is', '$1 wrote:[quote]$2[/quote]', $post);    //quote no quoted content
     	        $post = preg_replace('/<div class="bbcode_container">.*?<div class="bbcode_quote">.*?<div class="quote_container">.*?<div class="bbcode_quote_container vb-icon vb-icon-quote-large"><\/div>.*?<div class="bbcode_postedby">.*?<strong>(.*?)<\/strong>.*?<\/div>.*?<div class="message"><!-- ##.*?## -->(.*?)<\/div>.*?<\/div>.*?<\/div>.*?<\/div>/is', '$1 wrote:[quote]$2[/quote]', $post);    //quote another quoted content
@@ -452,10 +472,10 @@ Class MbqRdEtForumPost extends MbqBaseRdEtForumPost {
     	        $post = preg_replace('/<img .*?src="(.*?)" .*?\/>/i', '[img]$1[/img]', $post);
     	        $post = preg_replace('/<a .*?href="mailto:(.*?)".*?>(.*?)<\/a>/i', '[url=$1]$2[/url]', $post);
     	        $post = preg_replace('/<a .*?href="(.*?)".*?>(.*?)<\/a>/i', '[url=$1]$2[/url]', $post);
-				$post = preg_replace('/<a.*?href="(.*?)".*?\s+>\s+.*?\s+(<img[^>]+src\s*=\s*"(.*?)"[^>].*?\s+\/?\>)?\s+.*\s+.*\s+<\/a>/i', '[url=$1]$1[/url]', $post);
-				//preg_match ("/<img[^>]+src\s*=\s*[\"']\/?([^\"']+)[\"'][^>]*\>/", $msg, $m);
-				//preg_match('/<a .*?href="(.*?)".*?\s+>\s+.*?\s+<img[^>]+src\s*=\s*"(.*?)"[^>]*\>.*?<\/a>/i',$post, $x );
-				
+                $post = preg_replace('/<a.*?href="(.*?)".*?\s+>\s+.*?\s+(<img[^>]+src\s*=\s*"(.*?)"[^>].*?\s+\/?\>)?\s+.*\s+.*\s+<\/a>/i', '[url=$1]$1[/url]', $post);
+                //preg_match ("/<img[^>]+src\s*=\s*[\"']\/?([^\"']+)[\"'][^>]*\>/", $msg, $m);
+                //preg_match('/<a .*?href="(.*?)".*?\s+>\s+.*?\s+<img[^>]+src\s*=\s*"(.*?)"[^>]*\>.*?<\/a>/i',$post, $x );
+		
     	        $post = preg_replace('/<div class="bbcode_container">[^<]*?<div class="bbcode_description">PHP Code\:<\/div>[^<]*?<div class="bbcode_code"[^>]*?><code><code>(.*?)<\/code><\/code><\/div>[^<]*?<\/div>/is', 'PHP Code:[quote]$1[/quote]', $post);    //php
     	        $post = preg_replace('/<div class="bbcode_container">[^<]*?<div class="bbcode_description">Code\:<\/div>[^<]*?<pre class="bbcode_code"[^>]*?>(.*?)<\/pre>[^<]*?<\/div>/is', 'Code:[quote]$1[/quote]', $post);    //code
     	        $post = preg_replace('/<div class="bbcode_container">[^<]*?<div class="bbcode_description">HTML Code\:<\/div>[^<]*?<pre class="bbcode_code"[^>]*?>(.*?)<\/pre>[^<]*?<\/div>/is', 'HTML Code:[quote]$1[/quote]', $post);    //html
@@ -463,14 +483,14 @@ Class MbqRdEtForumPost extends MbqBaseRdEtForumPost {
 				
     	        $post = preg_replace('/<div class="attachment-list">[^<]*?Attached Files[^<]*?<ul>.*?<\/ul>[^<]*?<\/div>/is', '', $post);
     	        $post = preg_replace('/<div class="b-post-attachments">[^<]*?Attached Files[^<]*?<ul>.*?<\/ul>[^<]*?<\/div>/is', '', $post);
-				$post = preg_replace('/<object .*?>.*?<embed src="(.*?)".*?\><\/object>/is', '[url=$1]$1[/url]', $post); /* for youtube content etc. */
+                $post = preg_replace('/<object .*?>.*?<embed src="(.*?)".*?\><\/object>/is', '[url=$1]$1[/url]', $post); /* for youtube content etc. */
                 $post = str_ireplace('<hr />', '<br />____________________________________<br />', $post);
         	    
-				$post = str_ireplace('<li>', "\t\t<li>", $post);
-        	    		
-				$post = str_ireplace('</li>', "</li><br />", $post);
-        	    $post = str_ireplace('</tr>', '</tr><br />', $post);
-        	    $post = str_ireplace('</td>', "</td>\t\t", $post);
+                $post = str_ireplace('<li>', "\t\t<li>", $post);
+
+                $post = str_ireplace('</li>', "</li><br />", $post);
+                $post = str_ireplace('</tr>', '</tr><br />', $post);
+                $post = str_ireplace('</td>', "</td>\t\t", $post);
     	        $post = str_ireplace('</div>', '</div><br />', $post);
     	        $post = str_ireplace('&nbsp;', ' ', $post);
 				
@@ -481,9 +501,9 @@ Class MbqRdEtForumPost extends MbqBaseRdEtForumPost {
         } else {
     	    $post = strip_tags($post);
         }
-		
-		$post = trim($post);
-            //MbqCm::writeLog($post."\n\n\n\n--------------------------------------------------------\n\n\n\n", true);
+	$post = $this->processContentAttachFile($post, $obj->mbqBind['postRecord']);	
+        $post = trim($post);
+        //MbqCm::writeLog($post."\n\n\n\n--------------------------------------------------------\n\n\n\n", true);
     	return $post;
     }
     

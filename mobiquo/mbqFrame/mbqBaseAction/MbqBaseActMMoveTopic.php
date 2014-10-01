@@ -23,6 +23,7 @@ Abstract Class MbqBaseActMMoveTopic extends MbqBaseAct {
         }
         $topicId = MbqMain::$input[0];
         $forumId = MbqMain::$input[1];
+        $redirect = MbqMain::$input[2];
         $oMbqRdEtForumTopic = MbqMain::$oClk->newObj('MbqRdEtForumTopic');
         $oMbqRdEtForum = MbqMain::$oClk->newObj('MbqRdEtForum');
         $oMbqEtForumTopic = $oMbqRdEtForumTopic->initOMbqEtForumTopic($topicId, array('case' => 'byTopicId'));
@@ -31,7 +32,7 @@ Abstract Class MbqBaseActMMoveTopic extends MbqBaseAct {
             $oMbqAclEtForumTopic = MbqMain::$oClk->newObj('MbqAclEtForumTopic');
             if ($oMbqAclEtForumTopic->canAclMMoveTopic($oMbqEtForumTopic, $oMbqEtForum)) {    //acl judge
                 $oMbqWrEtForumTopic = MbqMain::$oClk->newObj('MbqWrEtForumTopic');
-                $oMbqWrEtForumTopic->mMoveTopic($topicId, $forumId);
+                $oMbqWrEtForumTopic->mMoveTopic($topicId, $forumId, $redirect);
                 $this->data['result'] = true;
             } else {
                 MbqError::alert('', '', '', MBQ_ERR_APP);
