@@ -21,12 +21,22 @@ Abstract Class MbqBaseActGetThread extends MbqBaseAct {
         if (!MbqMain::$oMbqConfig->moduleIsEnable('forum')) {
             MbqError::alert('', "Not support module forum!", '', MBQ_ERR_NOT_SUPPORT);
         }
-        $topicId = MbqMain::$input[0];
-        $startNum = (int) MbqMain::$input[1];
-        $lastNum = (int) MbqMain::$input[2];
-        $returnHtml = (boolean) MbqMain::$input[3];
-        $oMbqDataPage = MbqMain::$oClk->newObj('MbqDataPage');
-        $oMbqDataPage->initByStartAndLast($startNum, $lastNum);
+        if($ioHandleClass == 'MbqIoHandleJson')
+        {
+            $topicId = MbqMain::$input->topicId;
+            $returnHtml = MbqMain::$input->returnHtml;
+            $oMbqDataPage = MbqMain::$oClk->newObj('MbqDataPage');
+            $oMbqDataPage->initByPageAndPerPage(MbqMain::$input->page, MbqMain::$input->perPage);
+        }
+        else
+        {
+            $topicId = MbqMain::$input[0];
+            $startNum = (int) MbqMain::$input[1];
+            $lastNum = (int) MbqMain::$input[2];
+            $returnHtml = (boolean) MbqMain::$input[3];
+            $oMbqDataPage = MbqMain::$oClk->newObj('MbqDataPage');
+            $oMbqDataPage->initByStartAndLast($startNum, $lastNum);
+        }
         $oMbqRdEtForumTopic = MbqMain::$oClk->newObj('MbqRdEtForumTopic');
         if ($oMbqEtForumTopic = $oMbqRdEtForumTopic->initOMbqEtForumTopic($topicId, array('case' => 'byTopicId'))) {
             $oMbqAclEtForumTopic = MbqMain::$oClk->newObj('MbqAclEtForumTopic');
@@ -37,7 +47,6 @@ Abstract Class MbqBaseActGetThread extends MbqBaseAct {
                 $this->data['forum_name'] = (string) $oMbqEtForumTopic->oMbqEtForum->forumName->oriValue;
                 $this->data['can_upload'] = (boolean) $oMbqEtForumTopic->oMbqEtForum->canUpload->oriValue;
                 $this->data['posts'] = $oMbqRdEtForumPost->returnApiArrDataForumPost($oMbqDataPage->datas, $returnHtml);
-
                 $oMbqWrEtForumTopic = MbqMain::$oClk->newObj('MbqWrEtForumTopic');
                 /* add forum topic view num */
                 $oMbqWrEtForumTopic->addForumTopicViewNum($oMbqEtForumTopic);

@@ -58,28 +58,28 @@ Class MbqBaseWrEtForumTopic extends MbqBaseWr {
     /**
      * m_stick_topic
      */
-    public function mStickTopic($threadid, $mode) {
+    public function mStickTopic() {
         MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
     }
     
     /**
      * m_close_topic
      */
-    public function mCloseTopic($threadid, $mode) {
+    public function mCloseTopic() {
         MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
     }
     
     /**
      * m_delete_topic
      */
-    public function mDeleteTopic($threadid, $mode, $reason) {
+    public function mDeleteTopic() {
         MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
     }
     
     /**
      * m_undelete_topic
      */
-    public function mUndeleteTopic($threadid) {
+    public function mUndeleteTopic() {
         MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
     }
     

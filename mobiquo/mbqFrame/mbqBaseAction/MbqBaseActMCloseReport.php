@@ -28,7 +28,7 @@ Abstract Class MbqBaseActMCloseReport extends MbqBaseAct {
             $oMbqAclEtForumPost = MbqMain::$oClk->newObj('MbqAclEtForumPost');
             if ($oMbqAclEtForumPost->canAclMCloseReport($oMbqEtForumPost)) {    //acl judge
                 $oMbqWrEtForumPost = MbqMain::$oClk->newObj('MbqWrEtForumPost');
-                $oMbqWrEtForumPost->mCloseReport($postId);
+                $oMbqWrEtForumPost->mCloseReport($oMbqEtForumPost);
                 $this->data['result'] = true;
             } else {
                 MbqError::alert('', '', '', MBQ_ERR_APP);

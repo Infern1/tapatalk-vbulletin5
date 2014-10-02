@@ -21,12 +21,12 @@ Abstract Class MbqBaseCm {
     }
     
     /**
-    * get short content
-    - *
-    - * @param String $str
-    - * @param Integer $length
-    - * @return String
-    */
+     * get short content
+     *
+     * @param  String  $str
+     * @param  Integer  $length
+     * @return  String
+     */
     public function getShortContent($str, $length = 200) {
         /* get short content standard code begin */
         $str = preg_replace('/\<font [^\>]*?\>(.*?)\<\/font\>/is', '$1', $str);
@@ -62,9 +62,9 @@ Abstract Class MbqBaseCm {
         $str = preg_replace_callback('/\[([^\/]*?)\]/i', create_function('$matches','
         $v = strtolower($matches[1]);
         if (strpos($v, "quote") === 0 || strpos($v, "url") === 0 || strpos($v, "img") === 0 || strpos($v, "v") === 0 || strpos($v, "attach") === 0 || strpos($v, "php") === 0 || strpos($v, "html") === 0 || strpos($v, "spoiler") === 0 || strpos($v, "thread") === 0 || strpos($v, "topic") === 0 || strpos($v, "post") === 0 || strpos($v, "ftp") === 0 || strpos($v, "sql") === 0 || strpos($v, "xml") === 0 || strpos($v, "hide") === 0 || strpos($v, "ebay") === 0 || strpos($v, "map") === 0) {
-        return "[$matches[1]]";
+            return "[$matches[1]]";
         } else {
-        return "";
+            return "";
         }
         '), $str);
         $str = preg_replace('/\[\/[^\]]*?\]/i', '', $str);
@@ -414,6 +414,10 @@ Abstract Class MbqBaseCm {
      * @param  String  $type  replacement type.'bbcodeName' means replace bbcode name for our rules.
      */
     public function replaceCodes($content, $strNeedReplaced, $type = 'bbcodeName') {
+        preg_match_all('/[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+/i', $content, $match);
+        if(!empty($match[0])) foreach ($match[0] as $email){
+            $content = str_replace($email, '[email]' . $email .'[/email]', $content);
+        }
         switch ($type) {
             case 'bbcodeName':
                 $arr = explode('|', $strNeedReplaced);
@@ -663,15 +667,12 @@ Abstract Class MbqBaseCm {
         }
     }
     
-    
-    
-    
     /**
-    * add slash for url if it do not end of slash
-    *
-    * @param String $url
-    * @return String
-    */
+     * add slash for url if it do not end of slash
+     *
+     * @param  String  $url
+     * @return  String
+     */
     public function addSlashForUrl($url) {
         if (substr($url, strlen($url) -1, 1) == '/') {
         } else {
@@ -679,65 +680,67 @@ Abstract Class MbqBaseCm {
         }
         return $url;
     }
+    
     /**
-    * remove slash for url if it end of slash
-    *
-    * @param String $url
-    * @return String
-    */
+     * remove slash for url if it end of slash
+     *
+     * @param  String  $url
+     * @return  String
+     */
     public function removeSlashForUrl($url) {
         if (substr($url, strlen($url) -1, 1) == '/') {
             $url = substr($url, 0, strlen($url) - 1);
         }
         return $url;
     }
-
+    
     /**
-    * au_reg_verify
-    *
-    * @param String $token
-    * @param String $code
-    * @param String $key api key
-    * @param String $forumUrl
-    * @return Mixed
-    */
-    public function auRegVerify($token, $code, $key, $forumUrl) { //ref vb3x function_push.php->getEmailFromScription()
+     * au_reg_verify
+     *
+     * @param  String  $token
+     * @param  String  $code
+     * @param  String  $key  api key
+     * @param  String  $forumUrl
+     * @return  Mixed
+     */
+    public function auRegVerify($token, $code, $key, $forumUrl) {   //ref vb3x function_push.php->getEmailFromScription()
         $forumUrl = $this->removeSlashForUrl($forumUrl);
         $auUrl = 'http://directory.tapatalk.com/au_reg_verify.php';
         $verification_url = $auUrl.'?token='.$token.'&'.'code='.$code.'&key='.$key.'&url='.urlencode($forumUrl);
         $response = $this->getContentFromRemoteServer($verification_url, 10, $error);
         if($response)
-        $result = json_decode($response, true);
+            $result = json_decode($response, true);
         if(isset($result) && isset($result['result']))
             return $result;
         else
         {
             $data = array(
-            'token' => urlencode($token),
-            'code' => urlencode($code),
-            'key' => urlencode($key),
-            'url' => urlencode($forumUrl)
+                'token' => urlencode($token),
+                'code'  => urlencode($code),
+                'key'   => urlencode($key),
+                'url'   => urlencode($forumUrl)
             );
             $response = $this->getContentFromRemoteServer($auUrl, 10, $error, 'POST', $data);
             if($response)
-            $result = json_decode($response, true);
+                $result = json_decode($response, true);
             if(isset($result) && isset($result['result']))
                 return $result;
             else
                 return false; //No connection to Tapatalk Server.
         }
     }
+    
     /**
-    * Get content from remote server
-    *
-    * @param string $url NOT NULL the url of remote server, if the method is GET, the full url should include parameters; if the method is POST, the file direcotry should be given.
-    * @param string $holdTime [default 0] the hold time for the request, if holdtime is 0, the request would be sent and despite response.
-    * @param string $error_msg return error message
-    * @param string $method [default GET] the method of request.
-    * @param string $data [default array()] post data when method is POST.
-    *
-    * @exmaple: getContentFromRemoteServer('http://push.tapatalk.com/push.php', 0, $error_msg, 'POST', $ttp_post_data)
-    * @return string when get content successfully|false when the parameter is invalid or connection failed.
+     * Get content from remote server
+     *
+     * @param string $url      NOT NULL          the url of remote server, if the method is GET, the full url should include parameters; if the method is POST, the file direcotry should be given.
+     * @param string $holdTime [default 0]       the hold time for the request, if holdtime is 0, the request would be sent and despite response.
+     * @param string $error_msg                  return error message
+     * @param string $method   [default GET]     the method of request.
+     * @param string $data     [default array()] post data when method is POST.
+     *
+     * @exmaple: getContentFromRemoteServer('http://push.tapatalk.com/push.php', 0, $error_msg, 'POST', $ttp_post_data)
+     * @return string when get content successfully|false when the parameter is invalid or connection failed.
     */
     public function getContentFromRemoteServer($url, $holdTime = 0, &$error_msg, $method = 'GET', $data = array()) {
         //Validate input.
@@ -757,6 +760,7 @@ Abstract Class MbqBaseCm {
             $error_msg = 'Error: data could not be empty when method is POST';
             return false;//POST info not enough.
         }
+    
         if(!empty($holdTime) && function_exists('file_get_contents') && $method == 'GET')
         {
             $opts = array(
@@ -765,6 +769,7 @@ Abstract Class MbqBaseCm {
                     'timeout' => $holdTime,
                 )
             );
+    
             $context = stream_context_create($opts);
             $response = file_get_contents($url,false,$context);
         }
@@ -775,16 +780,19 @@ Abstract Class MbqBaseCm {
                 // extract host and path:
                 $host = $vurl['host'];
                 $path = $vurl['path'];
+    
                 if($method == 'POST')
                 {
                     $fp = fsockopen($host, 80, $errno, $errstr, 5);
-
+    
                     if(!$fp)
                     {
                         $error_msg = 'Error: socket open time out or cannot connet.';
                         return false;
                     }
+    
                     $data = http_build_query($data, '', '&');
+    
                     fputs($fp, "POST $path HTTP/1.1\r\n");
                     fputs($fp, "Host: $host\r\n");
                     fputs($fp, "Content-type: application/x-www-form-urlencoded\r\n");
@@ -805,10 +813,10 @@ Abstract Class MbqBaseCm {
                 if($method == 'POST')
                 {
                     $params = array(
-                    $vurl['scheme'] => array(
-                    'method' => 'POST',
-                    'content' => http_build_query($data, '', '&'),
-                    )
+                        $vurl['scheme'] => array(
+                            'method' => 'POST',
+                            'content' => http_build_query($data, '', '&'),
+                        )
                     );
                     $ctx = stream_context_create($params);
                     $old = ini_set('default_socket_timeout', $holdTime);
@@ -826,7 +834,7 @@ Abstract Class MbqBaseCm {
                 ini_set('default_socket_timeout', $old);
                 stream_set_timeout($fp, $holdTime);
                 stream_set_blocking($fp, 0);
-
+    
                 $response = @stream_get_contents($fp);
             }
         }
@@ -838,13 +846,13 @@ Abstract Class MbqBaseCm {
             curl_setopt($ch, CURLOPT_HEADER, false);
             if($method == 'POST')
             {
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
             }
             if(empty($holdTime))
             {
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1);
-            curl_setopt($ch, CURLOPT_TIMEOUT,1);
+                curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1);
+                curl_setopt($ch, CURLOPT_TIMEOUT,1);
             }
             $response = curl_exec($ch);
             curl_close($ch);
@@ -856,19 +864,6 @@ Abstract Class MbqBaseCm {
         }
         return $response;
     }
- 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
 }
     

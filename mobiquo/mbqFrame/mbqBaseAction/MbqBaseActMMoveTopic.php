@@ -32,7 +32,7 @@ Abstract Class MbqBaseActMMoveTopic extends MbqBaseAct {
             $oMbqAclEtForumTopic = MbqMain::$oClk->newObj('MbqAclEtForumTopic');
             if ($oMbqAclEtForumTopic->canAclMMoveTopic($oMbqEtForumTopic, $oMbqEtForum)) {    //acl judge
                 $oMbqWrEtForumTopic = MbqMain::$oClk->newObj('MbqWrEtForumTopic');
-                $oMbqWrEtForumTopic->mMoveTopic($topicId, $forumId, $redirect);
+                $oMbqWrEtForumTopic->mMoveTopic($oMbqEtForumTopic, $oMbqEtForum, $redirect);
                 $this->data['result'] = true;
             } else {
                 MbqError::alert('', '', '', MBQ_ERR_APP);

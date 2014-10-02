@@ -21,12 +21,22 @@ Abstract Class MbqBaseActGetTopic extends MbqBaseAct {
         if (!MbqMain::$oMbqConfig->moduleIsEnable('forum')) {
             MbqError::alert('', "Not support module forum!", '', MBQ_ERR_NOT_SUPPORT);
         }
-        $forumId = MbqMain::$input[0];
-        $startNum = (int) MbqMain::$input[1];
-        $lastNum = (int) MbqMain::$input[2];
-        $mode = MbqMain::$input[3];
         $oMbqDataPage = MbqMain::$oClk->newObj('MbqDataPage');
-        $oMbqDataPage->initByStartAndLast($startNum, $lastNum);
+        if($ioHandleClass == 'MbqIoHandleJson')
+        {
+            $forumId = MbqMain::$input->forumId;
+            $mode = MbqMain::$input->mode;
+            $oMbqDataPage->initByPageAndPerPage(MbqMain::$input->page, MbqMain::$input->perPage);
+        }
+        else
+        {
+            $forumId = MbqMain::$input[0];
+            $startNum = (int) MbqMain::$input[1];
+            $lastNum = (int) MbqMain::$input[2];
+            $mode = MbqMain::$input[3];
+            $oMbqDataPage->initByStartAndLast($startNum, $lastNum);
+        }
+      
         $oMbqRdEtForum = MbqMain::$oClk->newObj('MbqRdEtForum');
         $objsMbqEtForum = $oMbqRdEtForum->getObjsMbqEtForum(array($forumId), array('case' => 'byForumIds'));
         if ($objsMbqEtForum && ($oMbqEtForum = $objsMbqEtForum[0])) {
@@ -42,7 +52,7 @@ Abstract Class MbqBaseActGetTopic extends MbqBaseAct {
                     break;
                     case 'ANN':     /* returns "Announcement" topics.TODO */
                     $this->data = $oMbqRdEtForum->returnApiDataForum($oMbqEtForum);
-                    $this->data['total_topic_num'] = (int)0;
+                    $this->data['total_topic_num'] = (int) 0;
                     $this->data['topics'] = array();
                     break;
                     default:        /* returns standard topics */

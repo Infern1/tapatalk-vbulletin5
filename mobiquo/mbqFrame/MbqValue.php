@@ -112,16 +112,14 @@ Class MbqValue {
         return $this->hasSetTmlDisplayValueNoHtml;
     }
     
-    
-     /**
-    * judge the mnDisplayValue has been set
-    *
-    * @return Boolean
-    */
+    /**
+     * judge the mnDisplayValue has been set
+     *
+     * @return  Boolean
+     */
     public function hasSetMnDisplayValue() {
         return $this->hasSetMnDisplayValue;
     }
-    
     
     /**
      * set oriValue
@@ -164,10 +162,10 @@ Class MbqValue {
     }
     
     /**
-    * set mnDisplayValue
-    *
-    * @param Mixed $v
-    */
+     * set mnDisplayValue
+     *
+     * @param  Mixed  $v
+     */
     public function setMnDisplayValue($v) {
         $this->mnDisplayValue = $v;
         $this->hasSetMnDisplayValue = true;

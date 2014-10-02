@@ -23,6 +23,7 @@ Class MbqEtPm extends MbqBaseEntity {
     public $msgFromId;  /* user id of the message sender */
     public $msgFrom;  /* username of the message sender. this field is not required if the current box is a Sent box */
     public $isOnline;
+    public $iconUrl;
     public $allowSmilies;
     public $boxId;
     
@@ -46,6 +47,7 @@ Class MbqEtPm extends MbqBaseEntity {
         $this->msgFromId = clone MbqMain::$simpleV;
         $this->msgFrom = clone MbqMain::$simpleV;
         $this->isOnline = clone MbqMain::$simpleV;
+	$this->iconUrl = clone MbqMain::$simpleV;
         $this->allowSmilies = clone MbqMain::$simpleV;
         $this->boxId = clone MbqMain::$simpleV;
         

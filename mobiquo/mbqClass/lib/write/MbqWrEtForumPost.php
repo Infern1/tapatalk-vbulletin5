@@ -86,9 +86,9 @@ Class MbqWrEtForumPost extends MbqBaseWrEtForumPost {
     /**
      * m_delete_post
      */
-    public function mDeletePost($nodeids, $mode, $reason='') {
+    public function mDeletePost($oMbqEtForumPost, $mode, $reason='') {
         ($mode == 2) ? $hard = true : $hard = false;
-        $delete = vB_Api::instance('node')->deleteNodes($nodeids, $hard, $reason);
+        $delete = vB_Api::instance('node')->deleteNodes($oMbqEtForumPost->postId->oriValue, $hard, $reason);
         if($delete === null || !$delete) {
             MbqError::alert('', "Delete post failed!", '', MBQ_ERR_APP);
         }
@@ -97,8 +97,8 @@ Class MbqWrEtForumPost extends MbqBaseWrEtForumPost {
     /**
      * m_undelete_post
      */
-    public function mUndeletePost($nodeid) {
-        $delete = vB_Api::instance('node')->undeleteNodes($nodeid);
+    public function mUndeletePost($oMbqEtForumPost) {
+        $delete = vB_Api::instance('node')->undeleteNodes($oMbqEtForumPost->postId->oriValue);
         if ($delete === null || !empty($delete['errors'])) {
             MbqError::alert('', "Undelete post failed!", '', MBQ_ERR_APP);
         }
@@ -107,12 +107,12 @@ Class MbqWrEtForumPost extends MbqBaseWrEtForumPost {
     /**
      * m_undelete_post
      */
-    public function mMovePost($postids, $topicId, $destforumid, $title='') {
+    public function mMovePost($oMbqEtForumPost, $oMbqEtForum, $oMbqEtForumTopic, $topicTitle = '') {
 
         $cleaner = vB::getCleaner();
-        $postids = $cleaner->clean($postids, vB_Cleaner::TYPE_STR);
-        $title = $cleaner->clean($title, vB_Cleaner::TYPE_STR);
-        $destforumid = $cleaner->clean($destforumid, vB_Cleaner::TYPE_UINT);
+        $postids = $cleaner->clean($oMbqEtForumPost->postId->oriValue, vB_Cleaner::TYPE_STR);
+        $title = $cleaner->clean($topicTitle, vB_Cleaner::TYPE_STR);
+        $destforumid = $cleaner->clean($oMbqEtForumTopic->forumId->oriValue, vB_Cleaner::TYPE_UINT);
         $postids = explode(',', $postids);
         $postids = array_map("trim", $postids);
         if (empty($postids)) {
@@ -133,15 +133,15 @@ Class MbqWrEtForumPost extends MbqBaseWrEtForumPost {
     /**
      * m_approve_post
      *
-     * @param  Object  $oMbqEtForumTopic
+     * @param  Object  $oMbqEtForumPost
      * @param  Integer  $mode
      */
-    public function mApprovePost($tlist, $mode) {
+    public function mApprovePost($oMbqEtForumPost, $mode) {
         
         if ($mode == 1) {
-            $result = vB_Api::instance('node')->setApproved(array($tlist), true);
+            $result = vB_Api::instance('node')->setApproved(array($oMbqEtForumPost->postId->oriValue), true);
         } elseif ($mode == 2) {
-            $result = vB_Api::instance('node')->setApproved(array($tlist), false);
+            $result = vB_Api::instance('node')->setApproved(array($oMbqEtForumPost->postId->oriValue), false);
         } else {
             MbqError::alert('', "Need valid mode!", '', MBQ_ERR_APP);
         }

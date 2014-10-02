@@ -56,11 +56,9 @@ Class MbqIoHandleJson {
             }
         }
         
-        $parsers = json_decode($data);
-        $parsers = $this->objectToArray($parsers);
-        
-        $this->cmd = $parsers['methodname'];
-        $this->input = $parsers['params'];
+        $this->cmd = $_GET['method'];
+        $this->input = json_decode($data);
+        $this->input = (object)array_merge((array) $this->input, $_GET);
     }
     
     
@@ -101,7 +99,14 @@ Class MbqIoHandleJson {
     
     public function output(&$data) {
         header('Content-Type: application/json');
-        echo json_encode($data);
+        if($_GET['debug'] == 1)
+        {
+            echo json_encode($data, JSON_PRETTY_PRINT);
+        }
+        else
+        {
+            echo json_encode($data);
+        }
         exit;
     }
     

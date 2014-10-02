@@ -28,7 +28,7 @@ Abstract Class MbqBaseActMRenameTopic extends MbqBaseAct {
             $oMbqAclEtForumTopic = MbqMain::$oClk->newObj('MbqAclEtForumTopic');
             if ($oMbqAclEtForumTopic->canAclMRenameTopic($oMbqEtForumTopic)) {    //acl judge
                 $oMbqWrEtForumTopic = MbqMain::$oClk->newObj('MbqWrEtForumTopic');
-                $oMbqWrEtForumTopic->mRenameTopic($topicId, $title);
+                $oMbqWrEtForumTopic->mRenameTopic($oMbqEtForumTopic, $title);
                 $this->data['result'] = true;
             } else {
                 MbqError::alert('', '', '', MBQ_ERR_APP);

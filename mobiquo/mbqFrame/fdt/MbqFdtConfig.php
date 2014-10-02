@@ -144,41 +144,40 @@ Abstract Class MbqFdtConfig extends MbqBaseFdt {
                     'support' => 1,
                     'notSupport' => 0
                 )
-            
             ),
             'sign_in' => array(
                 'default' => 0,
                 'range' => array (
-                'support' => 1,
-                'notSupport' => 0
+                    'support' => 1,
+                    'notSupport' => 0
                 )
             ),
             'inappreg' => array(
                 'default' => 0,
                 'range' => array (
-                'support' => 1,
-                'notSupport' => 0
+                    'support' => 1,
+                    'notSupport' => 0
                 )
             ),
             'sso_login' => array(
                 'default' => 0,
                 'range' => array (
-                'support' => 1,
-                'notSupport' => 0
+                    'support' => 1,
+                    'notSupport' => 0
                 )
             ),
             'sso_signin' => array(
                 'default' => 0,
                 'range' => array (
-                'support' => 1,
-                'notSupport' => 0
+                    'support' => 1,
+                    'notSupport' => 0
                 )
             ),
             'sso_register' => array(
                 'default' => 0,
                 'range' => array (
-                'support' => 1,
-                'notSupport' => 0
+                    'support' => 1,
+                    'notSupport' => 0
                 )
             ),
             'native_register' => array(
@@ -187,8 +186,7 @@ Abstract Class MbqFdtConfig extends MbqBaseFdt {
                     'support' => 1,
                     'notSupport' => 0
                 )
-           )     
-                
+            )
         ),
         'forum' => array(
             'module_enable' => array(
@@ -213,7 +211,7 @@ Abstract Class MbqFdtConfig extends MbqBaseFdt {
                 )
             ),
             'goto_unread' => array(
-                'default' => 1,
+                'default' => 0,
                 'range' => array (
                     'support' => 1,
                     'notSupport' => 0
@@ -343,7 +341,7 @@ Abstract Class MbqFdtConfig extends MbqBaseFdt {
                 )
             ),
             'can_unread' => array(
-                'default' => 1,
+                'default' => 0,
                 'range' => array (
                     'support' => 1,
                     'notSupport' => 0

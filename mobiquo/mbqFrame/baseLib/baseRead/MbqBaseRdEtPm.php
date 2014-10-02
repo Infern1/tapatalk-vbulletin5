@@ -22,6 +22,10 @@ Abstract Class MbqBaseRdEtPm extends MbqBaseRd {
      */
     public function returnApiDataPm($oMbqEtPm, $returnHtml = true) {
         $data = array();
+        if ($oMbqEtPm->boxId->hasSetOriValue()) {
+            $data['box_id'] = (string) $oMbqEtPm->boxId->oriValue;
+        }
+        
         if ($oMbqEtPm->msgId->hasSetOriValue()) {
             $data['msg_id'] = (string) $oMbqEtPm->msgId->oriValue;
         }

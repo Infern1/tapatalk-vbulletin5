@@ -16,7 +16,23 @@ Abstract Class MbqBaseWrEtPm extends MbqBaseWr {
     /**
      * add private message
      */
-    public function addMbqEtPm() {
+    public function addMbqEtPm($fromid, $toid, $replyid, $message, $date, $config, $cryptmode) {
+        MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
+    }
+    
+    public function processToSave($message){
+        MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
+    }
+
+    public function deleteMbqEtPmMessage($userid, $msgId, $boxId = 0) {
+        MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
+    }
+    
+    public function markMbqEtPmUnread($userid, $msgId){
+        MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
+    }
+    
+    public function markMbqEtPmRead($userid, $msgId){
         MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
     }
   

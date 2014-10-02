@@ -29,12 +29,13 @@ Abstract Class MbqBaseActMDeleteTopic extends MbqBaseAct {
         if ($mode == 2) {
             MbqError::alert('', "Sorry!Not support hard-delete a topic!", '', MBQ_ERR_APP);
         }
+	$reason = MbqMain::$input[2];
         $oMbqRdEtForumTopic = MbqMain::$oClk->newObj('MbqRdEtForumTopic');
         if ($oMbqEtForumTopic = $oMbqRdEtForumTopic->initOMbqEtForumTopic($topicId, array('case' => 'byTopicId'))) {
             $oMbqAclEtForumTopic = MbqMain::$oClk->newObj('MbqAclEtForumTopic');
             if ($oMbqAclEtForumTopic->canAclMDeleteTopic($oMbqEtForumTopic, $mode)) {    //acl judge
                 $oMbqWrEtForumTopic = MbqMain::$oClk->newObj('MbqWrEtForumTopic');
-                $oMbqWrEtForumTopic->mDeleteTopic($topicId, $mode);
+                $oMbqWrEtForumTopic->mDeleteTopic($oMbqEtForumTopic, $mode, $reason);
                 $this->data['result'] = true;
             } else {
                 MbqError::alert('', '', '', MBQ_ERR_APP);

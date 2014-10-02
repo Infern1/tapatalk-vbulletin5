@@ -10,7 +10,8 @@ defined('MBQ_IN_IT') or exit;
  */
 Abstract Class MbqBaseWrEtUser extends MbqBaseWr {
     
-    public function __construct() { }
+    public function __construct() {
+    }
     
     /**
      * m_ban_user
@@ -18,7 +19,7 @@ Abstract Class MbqBaseWrEtUser extends MbqBaseWr {
     public function mBanUser() {
         MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
     }
-
+    
     /**
      * m_ban_user
      */
@@ -39,17 +40,20 @@ Abstract Class MbqBaseWrEtUser extends MbqBaseWr {
     public function registerUser() {
         MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
     }
-
+    
     /**
-    * update password
-    */
+     * update password
+     */
     public function updatePassword() {
         MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
     }
-
+    
     /**
-    * update email
-    */
-    public function updateEmail() { }
+     * update email
+     */
+    public function updateEmail() {
+        MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
+    }
+  
 }
 ?>

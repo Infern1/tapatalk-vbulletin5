@@ -44,14 +44,14 @@ Abstract Class MbqBaseWrEtForumPost extends MbqBaseWr {
     /**
      * m_delete_post
      */
-    public function mDeletePost($nodeids, $mode, $reason='') {
+    public function mDeletePost() {
         MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
     }
     
     /**
      * m_undelete_post
      */
-    public function mUndeletePost($nodeid) {
+    public function mUndeletePost() {
         MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
     }
     

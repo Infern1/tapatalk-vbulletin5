@@ -126,7 +126,7 @@ Abstract Class MbqBaseAclEtForumTopic extends MbqBaseAcl {
      *
      * @return  Boolean
      */
-    public function canAclMStickTopic($oMbqEtForumTopic, $mode) {
+    public function canAclMStickTopic() {
         MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
     }
     
@@ -135,7 +135,7 @@ Abstract Class MbqBaseAclEtForumTopic extends MbqBaseAcl {
      *
      * @return  Boolean
      */
-    public function canAclMCloseTopic($oMbqEtForumTopic, $mode) {
+    public function canAclMCloseTopic() {
         MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
     }
     
@@ -144,8 +144,8 @@ Abstract Class MbqBaseAclEtForumTopic extends MbqBaseAcl {
      *
      * @return  Boolean
      */
-    public function canAclMDeleteTopic($oMbqEtForumTopic, $mode) {
-       MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
+    public function canAclMDeleteTopic() {
+        MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
     }
     
     /**
@@ -153,7 +153,7 @@ Abstract Class MbqBaseAclEtForumTopic extends MbqBaseAcl {
      *
      * @return  Boolean
      */
-    public function canAclMUndeleteTopic($oMbqEtForumTopic) {
+    public function canAclMUndeleteTopic() {
         MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
     }
     

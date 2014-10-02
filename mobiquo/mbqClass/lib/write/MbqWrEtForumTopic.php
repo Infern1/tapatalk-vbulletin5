@@ -114,14 +114,14 @@ Class MbqWrEtForumTopic extends MbqBaseWrEtForumTopic {
     /**
      * m_stick_topic
      */
-    public function mStickTopic($threadid, $mode) {
+    public function mStickTopic($oMbqEtForumTopic, $mode) {
         if($mode==1){
-            $stick = vB_Api::instance('node')->setSticky(array($threadid));
+            $stick = vB_Api::instance('node')->setSticky(array($oMbqEtForumTopic->topicId->oriValue));
             if($stick === null || !empty($stick['errors'])) {
                  MbqError::alert('', "Stick topic failed!", '', MBQ_ERR_APP);
             }
         }else{
-            $unstick = vB_Api::instance('node')->unsetSticky(array($threadid));
+            $unstick = vB_Api::instance('node')->unsetSticky(array($oMbqEtForumTopic->topicId->oriValue));
             if($unstick === null || !empty($unstick['errors'])) {
                 MbqError::alert('', "Unstick topic failed!", '', MBQ_ERR_APP);
             }
@@ -132,14 +132,14 @@ Class MbqWrEtForumTopic extends MbqBaseWrEtForumTopic {
     /**
      * m_close_topic
      */
-    public function mCloseTopic($threadid, $mode) {
+    public function mCloseTopic($oMbqEtForumTopic, $mode) {
         if($mode==1){
-            $unlock = vB_Api::instance('node')->openNode($threadid);
+            $unlock = vB_Api::instance('node')->openNode($oMbqEtForumTopic->topicId->oriValue);
             if ($unlock === null || !empty($unlock['errors'])) {
                  MbqError::alert('', "Reopen topic failed!", '', MBQ_ERR_APP);
             }
         }else{
-            $lock = vB_Api::instance('node')->closeNode($threadid);
+            $lock = vB_Api::instance('node')->closeNode($oMbqEtForumTopic->topicId->oriValue);
             if($lock === null || !empty($lock['errors'])) {
                 MbqError::alert('', "Close topic failed!", '', MBQ_ERR_APP);
             }
@@ -149,9 +149,9 @@ Class MbqWrEtForumTopic extends MbqBaseWrEtForumTopic {
     /**
      * m_delete_topic
      */
-    public function mDeleteTopic($threadid, $mode, $reason) {
+    public function mDeleteTopic($oMbqEtForumTopic, $mode, $reason) {
         ($mode == 2) ? $hard = true : $hard = false;
-        $delete = vB_Api::instance('node')->deleteNodes(array($threadid), $hard, $reason);
+        $delete = vB_Api::instance('node')->deleteNodes(array($oMbqEtForumTopic->topicId->oriValue), $hard, $reason);
         if(empty($delete)) {
              MbqError::alert('', "Delete topic failed!", '', MBQ_ERR_APP);
         }
@@ -160,8 +160,8 @@ Class MbqWrEtForumTopic extends MbqBaseWrEtForumTopic {
     /**
      * m_undelete_topic
      */
-    public function mUndeleteTopic($threadid) {
-        $delete = vB_Api::instance('node')->undeleteNodes(array($threadid));
+    public function mUndeleteTopic($oMbqEtForumTopic) {
+        $delete = vB_Api::instance('node')->undeleteNodes(array($oMbqEtForumTopic->topicId->oriValue));
         if(empty($delete)) {
              MbqError::alert('', "Undelete topic failed!", '', MBQ_ERR_APP);
         }
@@ -170,9 +170,9 @@ Class MbqWrEtForumTopic extends MbqBaseWrEtForumTopic {
     /**
      * m_undelete_topic
      */
-    public function mMoveTopic($threadid, $destforumid, $redirect) {
+    public function mMoveTopic($oMbqEtForumTopic, $oMbqEtForum, $redirect) {
         if($redirect) $redirect = array('redirect' => 'perm');
-        $moved = vB_Api::instance('node')->moveNodes(array($threadid), $destforumid, true, false, true, $redirect);
+        $moved = vB_Api::instance('node')->moveNodes(array($oMbqEtForumTopic->topicId->oriValue), $oMbqEtForum->forumId->oriValue, true, false, true, $redirect);
         if($moved === null || isset($moved['errors'])) {
              MbqError::alert('', "Move topic failed!", '', MBQ_ERR_APP);
         }
@@ -181,11 +181,11 @@ Class MbqWrEtForumTopic extends MbqBaseWrEtForumTopic {
     /**
      * m_undelete_topic
      */
-    public function mRenameTopic($topicId, $title) {
+    public function mRenameTopic($oMbqEtForumTopic, $title) {
         $topic = array(
             'title' => $title
         );
-        $result = vB_Api::instance('content_text')->update($topicId, $topic);
+        $result = vB_Api::instance('content_text')->update($oMbqEtForumTopic->topicId->oriValue, $topic);
         if(empty($result) || isset($moved['errors']) ){
              MbqError::alert('', "Rename topic failed!", '', MBQ_ERR_APP);
         }
@@ -197,12 +197,12 @@ Class MbqWrEtForumTopic extends MbqBaseWrEtForumTopic {
      * @param  Object  $oMbqEtForumTopic
      * @param  Integer  $mode
      */
-    public function mApproveTopic($tlist, $mode) {
+    public function mApproveTopic($oMbqEtForumTopic, $mode) {
         
         if ($mode == 1) {
-            $result = vB_Api::instance('node')->setApproved(array($tlist), true);
+            $result = vB_Api::instance('node')->setApproved(array($oMbqEtForumTopic->topicId->oriValue), true);
         } elseif ($mode == 2) {
-            $result = vB_Api::instance('node')->setApproved(array($tlist), false);
+            $result = vB_Api::instance('node')->setApproved(array($oMbqEtForumTopic->topicId->oriValue), false);
         } else {
             MbqError::alert('', "Need valid mode!", '', MBQ_ERR_APP);
         }

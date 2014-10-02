@@ -90,7 +90,7 @@ Abstract Class MbqBaseAclEtForumPost extends MbqBaseAcl {
      *
      * @return  Boolean
      */
-    public function canAclMDeletePost($oMbqEtForumPost, $mode) {
+    public function canAclMDeletePost() {
         MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
     }
     
@@ -99,7 +99,7 @@ Abstract Class MbqBaseAclEtForumPost extends MbqBaseAcl {
      *
      * @return  Boolean
      */
-    public function canAclMUndeletePost($oMbqEtForumPost) {
+    public function canAclMUndeletePost() {
         MbqError::alert('', __METHOD__ . ',line:' . __LINE__ . '.' . MBQ_ERR_INFO_NEED_ACHIEVE_IN_INHERITED_CLASSE);
     }
     
