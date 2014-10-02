@@ -440,8 +440,6 @@ Class MbqRdEtForumPost extends MbqBaseRdEtForumPost {
         */
 		
         $post = $content;
-
-
         if ($returnHtml) {
             //MbqCm::writeLog($content."\n\n\n\n--------------------------------------------------------\n\n\n\n", true);
             if ($obj->mbqBind['bbcodeoptions']['allowsmilies']) {
@@ -463,6 +461,8 @@ Class MbqRdEtForumPost extends MbqBaseRdEtForumPost {
 
             
             if ($obj->mbqBind['bbcodeoptions']['allowbbcode']) {
+                
+                $post = preg_replace('/<div align="(right|left|center)">(.*?)<\/div>/i', '<font align="$1">$2</font>', $post);
     	        $post = preg_replace('/<div class="bbcode_container">.*?<div class="bbcode_quote">.*?<div class="quote_container">.*?<div class="bbcode_quote_container vb-icon vb-icon-quote-large"><\/div>.*?<div class="bbcode_postedby">.*?<strong>(.*?)<\/strong>.*?<\/div>.*?<div class="message">(.*?)<\/div>.*?<\/div>.*?<\/div>.*?<\/div>/is', '$1 wrote:[quote]$2[/quote]', $post);    //quote no quoted content
     	        $post = preg_replace('/<div class="bbcode_container">.*?<div class="bbcode_quote">.*?<div class="quote_container">.*?<div class="bbcode_quote_container vb-icon vb-icon-quote-large"><\/div>.*?<div class="bbcode_postedby">.*?<strong>(.*?)<\/strong>.*?<\/div>.*?<div class="message"><!-- ##.*?## -->(.*?)<\/div>.*?<\/div>.*?<\/div>.*?<\/div>/is', '$1 wrote:[quote]$2[/quote]', $post);    //quote another quoted content
     	        $post = preg_replace('/<div class="bbcode_container">.*?<div class="bbcode_quote">.*?<div class="quote_container">.*?<div class="bbcode_quote_container vb-icon vb-icon-quote-large"><\/div>(.*?)<\/div>.*?<\/div>.*?<\/div>/is', '[quote]$1[/quote]', $post);    //simple quote,for example:[quote]anything[/quote]
@@ -470,9 +470,12 @@ Class MbqRdEtForumPost extends MbqBaseRdEtForumPost {
             	$post = str_ireplace('<strong>', '<b>', $post);
             	$post = str_ireplace('</strong>', '</b>', $post);
     	        $post = preg_replace('/<img .*?src="(.*?)" .*?\/>/i', '[img]$1[/img]', $post);
-    	        $post = preg_replace('/<a .*?href="mailto:(.*?)".*?>(.*?)<\/a>/i', '[url=$1]$2[/url]', $post);
     	        $post = preg_replace('/<a .*?href="(.*?)".*?>(.*?)<\/a>/i', '[url=$1]$2[/url]', $post);
+                $post = preg_replace('/<a .*?href="mailto:(.*?)".*?>(.*?)<\/a>/i', '[url=$1]$2[/url]', $post);
+                $post = preg_replace('/mailto:/i', '', $post);
                 $post = preg_replace('/<a.*?href="(.*?)".*?\s+>\s+.*?\s+(<img[^>]+src\s*=\s*"(.*?)"[^>].*?\s+\/?\>)?\s+.*\s+.*\s+<\/a>/i', '[url=$1]$1[/url]', $post);
+                
+               
                 //preg_match ("/<img[^>]+src\s*=\s*[\"']\/?([^\"']+)[\"'][^>]*\>/", $msg, $m);
                 //preg_match('/<a .*?href="(.*?)".*?\s+>\s+.*?\s+<img[^>]+src\s*=\s*"(.*?)"[^>]*\>.*?<\/a>/i',$post, $x );
 		
@@ -501,6 +504,9 @@ Class MbqRdEtForumPost extends MbqBaseRdEtForumPost {
         } else {
     	    $post = strip_tags($post);
         }
+        
+        
+        
 	$post = $this->processContentAttachFile($post, $obj->mbqBind['postRecord']);	
         $post = trim($post);
         //MbqCm::writeLog($post."\n\n\n\n--------------------------------------------------------\n\n\n\n", true);
