@@ -240,6 +240,15 @@ Class MbqRdEtUser extends MbqBaseRdEtUser {
         }
     }
   
+        /**
+    * forget_password
+    *
+    * @return Array
+    */
+    public function forgetPassword() {
+        MbqError::alert('', "Not support this action.", '', MBQ_ERR_APP);
+    }
+    
 }
 
 ?>

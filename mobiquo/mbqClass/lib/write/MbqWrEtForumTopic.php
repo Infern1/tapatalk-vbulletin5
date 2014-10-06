@@ -63,6 +63,21 @@ Class MbqWrEtForumTopic extends MbqBaseWrEtForumTopic {
         }
     }
     
+    function getErrorFromResult($result){
+        $error = vB_Library::instance('vb4_functions')->getErrorResponse($result);
+        if(!empty($error)){
+            $message = $error['response']['errormessage'];
+            if($message=='maxchars_exceeded_x_title_y'){
+                $vboptions = vB::getDatastore()->getValue('options');
+                $titlemaxchars = $vboptions['titlemaxchars'];
+                MbqError::alert('', "Maximum number of characters exceeded in the title. It cannot be more than $titlemaxchars characters.", '', MBQ_ERR_APP);
+            }else{
+                MbqError::alert('', "Can not save!Content too short or please post later.", '', MBQ_ERR_APP);
+            }
+        }
+        MbqError::alert('', "Can not save!Content too short or please post later.", '', MBQ_ERR_APP);
+    }
+    
     /**
      * add forum topic
      *
@@ -101,7 +116,7 @@ Class MbqWrEtForumTopic extends MbqBaseWrEtForumTopic {
                     }
                     //handle atts end
                 } else {
-                    MbqError::alert('', "Can not save!Content too short or please post later.", '', MBQ_ERR_APP);
+                    $this->getErrorFromResult($result);
                 }
                 $oMbqRdEtForumTopic = MbqMain::$oClk->newObj('MbqRdEtForumTopic');
                 $var = $oMbqRdEtForumTopic->initOMbqEtForumTopic($var->topicId->oriValue, array('case' => 'byTopicId'));    //for get state

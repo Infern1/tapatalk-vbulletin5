@@ -153,7 +153,7 @@ Abstract Class MbqFdtConfig extends MbqBaseFdt {
                 )
             ),
             'inappreg' => array(
-                'default' => 0,
+                'default' => 1,
                 'range' => array (
                     'support' => 1,
                     'notSupport' => 0
