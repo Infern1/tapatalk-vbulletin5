@@ -26,7 +26,7 @@ Abstract Class MbqBaseActDeleteConversation extends MbqBaseAct {
         $mode = (int) MbqMain::$input[1];
         $oMbqRdEtPc = MbqMain::$oClk->newObj('MbqRdEtPc');
         if ($objsMbqEtPc = $oMbqRdEtPc->getObjsMbqEtPc(array($convId), array('case' => 'byConvIds'))) {
-            $oMbqEtPc = $objsMbqEtPc[0];
+            $oMbqEtPc = $objsMbqEtPc[$convId];
             $oMbqAclEtPc = MbqMain::$oClk->newObj('MbqAclEtPc');
             if ($oMbqAclEtPc->canAclDeleteConversation($oMbqEtPc, $mode)) {    //acl judge
                 $oMbqWrEtPc = MbqMain::$oClk->newObj('MbqWrEtPc');

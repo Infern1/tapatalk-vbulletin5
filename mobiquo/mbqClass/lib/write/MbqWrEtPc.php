@@ -48,7 +48,12 @@ Class MbqWrEtPc extends MbqBaseWrEtPc {
     public function deleteConversation($oMbqEtPc, $mode) {
         if ($mode ==1 || $mode == 2) {
             try {
-                $result = vB_Api::instance('content_privatemessage')->toTrashcan($oMbqEtPc->convId->oriValue);
+                if($mode==2){
+                    $result = vB_Api::instance('content_privatemessage')->deleteMessages($oMbqEtPc->convId->oriValue);
+                }
+                else{
+                    $result = vB_Api::instance('content_privatemessage')->toTrashcan($oMbqEtPc->convId->oriValue);
+                }
                 if (!MbqMain::$oMbqAppEnv->exttHasErrors($result)) {
                     if (!$result) {
                         MbqError::alert('', "Can not delete conversation!", '', MBQ_ERR_APP);
