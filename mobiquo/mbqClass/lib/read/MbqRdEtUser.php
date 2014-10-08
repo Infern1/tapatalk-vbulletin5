@@ -106,6 +106,7 @@ Class MbqRdEtUser extends MbqBaseRdEtUser {
             $oMbqEtUser->loginName->setOriValue($var['username']);
             $oMbqEtUser->userName->setOriValue($var['username']);
             $oMbqEtUser->userGroupIds->setOriValue(array($var['usergroupid']));
+            $oMbqEtUser->userEmail->setOriValue($var['email']);
             $iconUrl = vB_Api::instanceInternal('user')->fetchAvatar($var['userid'], true);
             $iconUrl = $iconUrl['avatarpath'];
             $iconUrl = MbqMain::$oMbqAppEnv->baseUrlCore . '/' . $iconUrl;
