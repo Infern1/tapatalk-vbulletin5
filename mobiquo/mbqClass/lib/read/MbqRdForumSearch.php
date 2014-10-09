@@ -30,7 +30,7 @@ Class MbqRdForumSearch extends MbqBaseRdForumSearch {
             if ($mbqOpt['case'] == 'getParticipatedTopic') {
                 $top = vB_Api::instance('content_channel')->fetchTopLevelChannelIds();
                 $search['channel'] = $top['forum'];
-            	$search['authorid'] = MbqMain::$oCurMbqEtUser->userId->oriValue;
+            	$search['authorid'] = ($filter['userid'])? $filter['userid'] : MbqMain::$oCurMbqEtUser->userId->oriValue;
             	$search['contenttypeid'] = vB_Api::instanceInternal('contenttype')->fetchContentTypeIdFromClass('Text');
             	$search['depth'] = EXTTMBQ_NO_LIMIT_DEPTH;
                 $search['sort']['publishdate'] = 'desc';

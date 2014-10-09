@@ -186,8 +186,20 @@ Class MbqWrEtForumTopic extends MbqBaseWrEtForumTopic {
      * m_undelete_topic
      */
     public function mMoveTopic($oMbqEtForumTopic, $oMbqEtForum, $redirect) {
-        if($redirect) $redirect = array('redirect' => 'perm');
-        $moved = vB_Api::instance('node')->moveNodes(array($oMbqEtForumTopic->topicId->oriValue), $oMbqEtForum->forumId->oriValue, true, false, true, $redirect);
+        if(!$redirect) $redirect = array('redirect' => 'perm');
+        else $redirect = array('redirect' => $redirect);
+        $cleaner = vB::getCleaner();
+        $threadids = $cleaner->clean($oMbqEtForumTopic->topicId->oriValue, vB_Cleaner::TYPE_STR);
+        $destforumid = $cleaner->clean($oMbqEtForum->forumId->oriValue, vB_Cleaner::TYPE_UINT);
+        $threadids = explode(',', $threadids);
+        $threadids = array_map("trim", $threadids);
+        if (empty($threadids)) {
+            MbqError::alert('', "Need valid topic id!", '', MBQ_ERR_APP);
+        }
+        if (empty($destforumid)) {
+            MbqError::alert('', "Need valid forum id!", '', MBQ_ERR_APP);
+        }
+        $moved = vB_Api::instance('node')->moveNodes($threadids, $destforumid, true, false, true, $redirect);
         if($moved === null || isset($moved['errors'])) {
              MbqError::alert('', "Move topic failed!", '', MBQ_ERR_APP);
         }

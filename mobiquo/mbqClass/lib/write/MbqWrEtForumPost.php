@@ -112,7 +112,7 @@ Class MbqWrEtForumPost extends MbqBaseWrEtForumPost {
         $cleaner = vB::getCleaner();
         $postids = $cleaner->clean($oMbqEtForumPost->postId->oriValue, vB_Cleaner::TYPE_STR);
         $title = $cleaner->clean($topicTitle, vB_Cleaner::TYPE_STR);
-        $destforumid = $cleaner->clean($oMbqEtForumTopic->forumId->oriValue, vB_Cleaner::TYPE_UINT);
+        $destforumid = $cleaner->clean($oMbqEtForum->forumId->oriValue, vB_Cleaner::TYPE_UINT);
         $postids = explode(',', $postids);
         $postids = array_map("trim", $postids);
         if (empty($postids)) {

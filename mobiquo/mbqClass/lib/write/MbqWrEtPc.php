@@ -22,13 +22,15 @@ Class MbqWrEtPc extends MbqBaseWrEtPc {
      */
     public function addMbqEtPc(&$oMbqEtPc) {
         try {
+            $cleaner = vB::getCleaner();
             $result = vB_Api::instanceInternal('content_privatemessage')->add(
                 array(
                     'msgRecipients' => implode(',', $oMbqEtPc->userNames->oriValue),
-                    'title' => $oMbqEtPc->convTitle->oriValue,
-                    'rawtext' => $oMbqEtPc->convContent->oriValue
+                    'title' => $cleaner->clean($oMbqEtPc->convTitle->oriValue),
+                    'rawtext' => htmlspecialchars($cleaner->clean($oMbqEtPc->convContent->oriValue) ,ENT_NOQUOTES )
                 )
             );
+            
             if (!MbqMain::$oMbqAppEnv->exttHasErrors($result)) {
                 $oMbqEtPc->convId->setOriValue($result);
             } else {

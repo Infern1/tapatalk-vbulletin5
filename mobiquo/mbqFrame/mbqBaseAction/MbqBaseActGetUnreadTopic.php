@@ -21,34 +21,20 @@ Abstract Class MbqBaseActGetUnreadTopic extends MbqBaseAct {
         if (!MbqMain::$oMbqConfig->moduleIsEnable('forum')) {
             MbqError::alert('', "Not support module forum!", '', MBQ_ERR_NOT_SUPPORT);
         }
-        if($ioHandleClass = 'MbqIoHandleJson')
-        {
-            $oMbqDataPage = MbqMain::$oClk->newObj('MbqDataPage');
-            $oMbqDataPage->initByPageAndPerPage(MbqMain::$input->page, MbqMain::$input->perPage);
-            $filter = array(
-                'searchid' => MbqMain::$input->searchId,
-                'page' => $oMbqDataPage->curPage,
-                'perpage' => $oMbqDataPage->numPerPage
-            );
-            if (MbqMain::$input->filter && is_array(MbqMain::$input->filter)) {
-                $filter = array_merge($filter, MbqMain::$input->filter);
-            }
+       
+        $startNum = (int) MbqMain::$input[0];
+        $lastNum = (int) MbqMain::$input[1];
+        $oMbqDataPage = MbqMain::$oClk->newObj('MbqDataPage');
+        $oMbqDataPage->initByStartAndLast($startNum, $lastNum);
+        $filter = array(
+            'searchid' => MbqMain::$input[2],
+            'page' => $oMbqDataPage->curPage,
+            'perpage' => $oMbqDataPage->numPerPage
+        );
+        if (MbqMain::$input[3] && is_array(MbqMain::$input[3])) {
+            $filter = array_merge($filter, MbqMain::$input[3]);
         }
-        else
-        {
-            $startNum = (int) MbqMain::$input[0];
-            $lastNum = (int) MbqMain::$input[1];
-            $oMbqDataPage = MbqMain::$oClk->newObj('MbqDataPage');
-            $oMbqDataPage->initByStartAndLast($startNum, $lastNum);
-            $filter = array(
-                'searchid' => MbqMain::$input[2],
-                'page' => $oMbqDataPage->curPage,
-                'perpage' => $oMbqDataPage->numPerPage
-            );
-            if (MbqMain::$input[3] && is_array(MbqMain::$input[3])) {
-                $filter = array_merge($filter, MbqMain::$input[3]);
-            }
-        }
+        
         $filter['showposts'] = 0;
         $oMbqAclEtForumTopic = MbqMain::$oClk->newObj('MbqAclEtForumTopic');
         if ($oMbqAclEtForumTopic->canAclGetUnreadTopic()) {    //acl judge

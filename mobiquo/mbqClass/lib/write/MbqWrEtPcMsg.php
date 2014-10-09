@@ -23,10 +23,11 @@ Class MbqWrEtPcMsg extends MbqBaseWrEtPcMsg {
      */
     public function addMbqEtPcMsg(&$oMbqEtPcMsg, $oMbqEtPc) {
         try {
+            $cleaner = vB::getCleaner();
             $result = vB_Api::instanceInternal('content_privatemessage')->add(
                 array(
             		'respondto' => $oMbqEtPc->convId->oriValue,
-            		'rawtext' => $oMbqEtPcMsg->msgContent->oriValue,
+            		'rawtext' => htmlspecialchars($cleaner->clean($oMbqEtPcMsg->msgContent->oriValue) ,ENT_NOQUOTES ),
             		'msgtype' => 'message'
                 )
             );

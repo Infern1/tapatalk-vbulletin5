@@ -27,7 +27,7 @@ Abstract Class MbqBaseActGetParticipatedTopic extends MbqBaseAct {
         $oMbqDataPage = MbqMain::$oClk->newObj('MbqDataPage');
         $oMbqDataPage->initByStartAndLast($startNum, $lastNum);
         $filter = array(
-            'searchuser' => MbqMain::$input[0],
+            'searchuser' => $userName,
             'userid' => MbqMain::$input[4],
             'searchid' => MbqMain::$input[3],
             'page' => $oMbqDataPage->curPage,
@@ -37,6 +37,7 @@ Abstract Class MbqBaseActGetParticipatedTopic extends MbqBaseAct {
         
         $oMbqRdEtUser = MbqMain::$oClk->newObj('MbqRdEtUser');
         if ($oMbqEtUser = $oMbqRdEtUser->initOMbqEtUser($userName, array('case' => 'byLoginName'))) {
+            $filter['userid'] = $oMbqEtUser->userId->oriValue;
             $oMbqAclEtForumTopic = MbqMain::$oClk->newObj('MbqAclEtForumTopic');
             if ($oMbqAclEtForumTopic->canAclGetParticipatedTopic()) {    //acl judge
                 $oMbqRdForumSearch = MbqMain::$oClk->newObj('MbqRdForumSearch');
