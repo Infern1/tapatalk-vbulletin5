@@ -57,7 +57,7 @@ Abstract Class MbqBaseRdEtForumTopic extends MbqBaseRd {
             //display the last reply user name for app when list topics
             if(MbqMain::$cmd !='get_topic'){
                 $data['topic_author_name'] = (string) $oMbqEtForumTopic->oAuthorMbqEtUser->getDisplayName();
-                $data['post_author_name'] = (string) $oMbqEtForumTopic->oAuthorMbqEtUser->getDisplayName();
+                $data['post_author_name'] = (string) $oMbqEtForumTopic->oLastReplyMbqEtUser->getDisplayName();
             }
 
         }

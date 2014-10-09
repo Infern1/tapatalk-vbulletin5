@@ -168,8 +168,10 @@ Class MbqRdEtForumTopic extends MbqBaseRdEtForumTopic {
             $forumIds = $oTopic = array();
             $topicIds = array();
             foreach ($var as $jView){
+                $jView = $this->getLastPost($jView);
                 $oTopic[$jView['nodeid']] = $jView;
             }
+            //k($oTopic);
             $arrTopicRecord = vB_Api::instance('node')->mergeNodeviewsForTopics($oTopic);
             foreach ($arrTopicRecord as $topicRecord) {
                 $objsMbqEtForumTopic[] = $this->initOMbqEtForumTopic($topicRecord, array('case' => 'byTopicRecord'));
@@ -245,6 +247,18 @@ Class MbqRdEtForumTopic extends MbqBaseRdEtForumTopic {
         return $readtime > $node['lastcontent'];
     }
     
+    
+    public function getLastPost($var){
+         if(MbqMain::$cmd !='get_topic'){
+             if($var['nodeid'] != $var['lastcontentid']){
+                 $node = vB_Api::instanceInternal('node')->getFullContentforNodes($var['lastcontentid']);
+                 $var['content']['rawtext'] = $node[0]['content']['rawtext'];
+             }
+         }
+         return $var;
+    }
+
+
     /**
      * init one forum topic by condition
      *
