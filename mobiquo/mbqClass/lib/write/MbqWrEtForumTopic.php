@@ -97,7 +97,7 @@ Class MbqWrEtForumTopic extends MbqBaseWrEtForumTopic {
                 if (!MbqMain::$oMbqAppEnv->exttHasErrors($result)) {
                     $var->topicId->setOriValue($result);
                     //handle atts start,ref vB5_Frontend_Controller_CreateContent::index()
-                    $attIds = MbqMain::$oMbqCm->getAttIdsFromContent($data['rawtext']);
+                    $attIds = $var->attachmentIdArray->oriValue;
                     if ($attIds) {
                         foreach ($attIds as $attId) {
                             $attData = array(

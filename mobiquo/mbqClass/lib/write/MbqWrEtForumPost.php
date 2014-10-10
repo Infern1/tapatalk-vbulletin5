@@ -33,7 +33,7 @@ Class MbqWrEtForumPost extends MbqBaseWrEtForumPost {
             if (!MbqMain::$oMbqAppEnv->exttHasErrors($result)) {
                 $var->postId->setOriValue($result);
                 //handle atts start,ref vB5_Frontend_Controller_CreateContent::index()
-                $attIds = MbqMain::$oMbqCm->getAttIdsFromContent($data['rawtext']);
+                $attIds = $var->attachmentIdArray->oriValue;
                 if ($attIds) {
                     foreach ($attIds as $attId) {
                         $attData = array(
