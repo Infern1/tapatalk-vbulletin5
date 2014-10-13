@@ -147,6 +147,7 @@ Class MbqRdEtUser extends MbqBaseRdEtUser {
             return false;
         } elseif ($mbqOpt['case'] == 'byLoginName') {
             try {
+                $var = vB_String::htmlSpecialCharsUni($var);
                 $result = vB_Api::instanceInternal('user')->fetchByUsername($var);
                 if (!MbqMain::$oMbqAppEnv->exttHasErrors($result)) {
                     if ($result) {
