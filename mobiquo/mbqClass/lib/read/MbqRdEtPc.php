@@ -49,6 +49,11 @@ Class MbqRdEtPc extends MbqBaseRdEtPc {
         }
     }
     
+	public function shortObjsMbqEtPc($var1, $var2){
+		if ($var1['lastcontent'] == $var2['lastcontent']) return 0;
+		return ($var1['lastcontent'] > $var2['lastcontent']) ? -1 : 1;
+	}
+	
     /**
      * get private conversation objs
      *
@@ -109,6 +114,9 @@ Class MbqRdEtPc extends MbqBaseRdEtPc {
                 $result = vB_Api::instanceInternal('node')->getFullContentforNodes($var);
                 if (!MbqMain::$oMbqAppEnv->exttHasErrors($result)) {
                     $arrPcRecord = $result;
+					if(MbqMain::$cmd == 'get_conversations'){
+						usort($arrPcRecord, array($this, 'shortObjsMbqEtPc'));
+					}
                     require_once(MBQ_APPEXTENTION_PATH.'ExttMbqVbLibraryContentPrivatemessage.php');
                     $oExttMbqVbLibraryContentPrivatemessage = new ExttMbqVbLibraryContentPrivatemessage();
                     foreach ($arrPcRecord as $pcRecord) {
