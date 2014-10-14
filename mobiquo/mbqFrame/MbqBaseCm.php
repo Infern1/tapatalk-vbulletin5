@@ -28,6 +28,7 @@ Abstract Class MbqBaseCm {
      * @return  String
      */
     public function getShortContent($str, $length = 200) {
+        
         /* get short content standard code begin */
         $str = preg_replace('/\<font [^\>]*?\>(.*?)\<\/font\>/is', '$1', $str);
         $str = preg_replace('/\<font\>(.*?)\<\/font\>/is', '$1', $str);
@@ -57,7 +58,7 @@ Abstract Class MbqBaseCm {
         $str = preg_replace('/\[confidential[^\]]*?\].*?\[\/confidential\]/is', '[hide]', $str);
         $str = preg_replace('/\[ebay[^\]]*?\].*?\[\/ebay\]/is', '[ebay]', $str);
         $str = preg_replace('/\[map[^\]]*?\].*?\[\/map\]/is', '[map]', $str);
-        $str = preg_replace('/[\n|\r|\t]/', '', $str);
+        $str = preg_replace('/[\n|\r|\t]/', ' ', $str);
         //remove useless bbcode begin
         $str = preg_replace_callback('/\[([^\/]*?)\]/i', create_function('$matches','
         $v = strtolower($matches[1]);
@@ -71,8 +72,9 @@ Abstract Class MbqBaseCm {
         //remove useless bbcode end
         $str = html_entity_decode($str, ENT_QUOTES, 'UTF-8');
         $str = function_exists('mb_substr') ? mb_substr($str, 0, $length) : substr($str, 0, $length);
+        $str = str_replace(PHP_EOL, ' ', $str);
         $str = preg_replace('/<br\s*\/?>/i', ' ', $str);
-        $str = strip_tags($str);
+        //$str = strip_tags($str);
         /* get short content standard code end */
         return $str;
     }
