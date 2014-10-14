@@ -15,6 +15,23 @@ Class MbqWrEtForumPost extends MbqBaseWrEtForumPost {
     public function __construct() {
     }
     
+    function getErrorFromResult($result){
+        $error = vB_Library::instance('vb4_functions')->getErrorResponse($result);
+        if(!empty($error)){
+            $message = $error['response']['errormessage'];
+            if($message=='maxchars_exceeded_x_title_y'){
+                $vboptions = vB::getDatastore()->getValue('options');
+                $titlemaxchars = $vboptions['titlemaxchars'];
+                MbqError::alert('', "Maximum number of characters exceeded in the title. It cannot be more than $titlemaxchars characters.", '', MBQ_ERR_APP);
+            }else if($message=='cannot_reply_to_redirect'){
+                MbqError::alert('', "You cannot reply to a redirect. Please follow the redirect and add your content to the new location.", '', MBQ_ERR_APP);
+            }else{
+                MbqError::alert('', "Can not save!Content too short or please post later.", '', MBQ_ERR_APP);
+            }
+        }
+        MbqError::alert('', "Can not save!Content too short or please post later.", '', MBQ_ERR_APP);
+    }
+    
     /**
      * add forum post
      *
@@ -52,7 +69,7 @@ Class MbqWrEtForumPost extends MbqBaseWrEtForumPost {
                 }
                 //handle atts end
             } else {
-                MbqError::alert('', "Can not save!Content too short or please post later.", '', MBQ_ERR_APP);
+                $this->getErrorFromResult($result);
             }
             $oMbqRdEtForumPost = MbqMain::$oClk->newObj('MbqRdEtForumPost');
             $var = $oMbqRdEtForumPost->initOMbqEtForumPost($var->postId->oriValue, array('case' => 'byPostId'));    //for get state

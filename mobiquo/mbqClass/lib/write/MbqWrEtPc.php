@@ -21,8 +21,11 @@ Class MbqWrEtPc extends MbqBaseWrEtPc {
      * @param  Object  $oMbqEtPc
      */
     public function addMbqEtPc(&$oMbqEtPc) {
+        klog(1111111111);
+        klog($oMbqEtPc->userNames->oriValue);
         try {
             $cleaner = vB::getCleaner();
+            
             $result = vB_Api::instanceInternal('content_privatemessage')->add(
                 array(
                     'msgRecipients' => implode(',', $oMbqEtPc->userNames->oriValue),

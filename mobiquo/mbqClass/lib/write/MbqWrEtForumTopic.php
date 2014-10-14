@@ -71,6 +71,8 @@ Class MbqWrEtForumTopic extends MbqBaseWrEtForumTopic {
                 $vboptions = vB::getDatastore()->getValue('options');
                 $titlemaxchars = $vboptions['titlemaxchars'];
                 MbqError::alert('', "Maximum number of characters exceeded in the title. It cannot be more than $titlemaxchars characters.", '', MBQ_ERR_APP);
+            }else if($message=='cannot_reply_to_redirect'){
+                MbqError::alert('', "You cannot reply to a redirect. Please follow the redirect and add your content to the new location.", '', MBQ_ERR_APP);
             }else{
                 MbqError::alert('', "Can not save!Content too short or please post later.", '', MBQ_ERR_APP);
             }
