@@ -3,7 +3,7 @@
 <product productid="tapatalk" active="1">
 	<title>Tapatalk</title>
 	<description>Tapatalk mobile app plugin for vb5.</description>
-	<version>1.0.2</version>
+	<version>1.0.3</version>
 	<url>http://tapatalk.com</url>
 	<versioncheckurl>http://tapatalk.com/vb5.php</versioncheckurl>
 	<dependencies>
