@@ -1,4 +1,10 @@
 <?php
+define('IN_MOBIQUO', true);
+if (isset($_GET['welcome']))
+{
+    include('./smartbanner/app.php');
+    exit;
+}
 
 require_once('mobiquoCommon.php');
 
