@@ -17,7 +17,7 @@ Class MbqCommonConfig {
 //MbqCommonConfig::$cfg['push'] = 1;
 //MbqCommonConfig::$cfg['push_type'] = 'newtopic,sub';
 
-MbqCommonConfig::$cfg['push'] = 1;
+MbqCommonConfig::$cfg['push'] = 0;
 //MbqCommonConfig::$cfg['push_type'] = 'thank,newtopic,sub,quote,tag';
 MbqCommonConfig::$cfg['push_type'] = 'thank,newtopic,sub,pm';
 

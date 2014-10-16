@@ -1,5 +1,4 @@
 
-
 .mobile_banner,.mobile_banner_inner,.mobile_banner .mobile_banner_button
 {
 -webkit-box-sizing:border-box;
@@ -18,6 +17,7 @@ overflow:hidden;
 max-width:600px;
 width:100%;
 font-size:8px;
+z-index:2147483647;
 -webkit-font-smoothing:antialiased;
 -webkit-transition:all .3s ease-in-out;
 -moz-transition:all .3s ease-in-out;
@@ -58,7 +58,9 @@ text-align:center
 {
 font-size:2.250em;
 margin-bottom:.188em;
-padding:0 2em
+padding:0 2em;
+font-weight:bold;
+line-height:1.3em;
 }
 
 .mobile_banner_subheading
@@ -76,20 +78,11 @@ overflow:hidden;
 opacity:.3;
 width:2.125em;/*tapatalk*/
 height:2.125em;/*tapatalk*/
-background-image:url('x.png');
+background-image:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAx0lEQVR4AdXXMQqDQBCGUSvvkjQ5iOBFhYCQy1mZLRZsBh/8zSbCV8nsa0TH6aeu1/Mxt7bW0prCln7GXN2vBubW3jpbh/Ab9Ohn7BV+h57AifZKHKhxozUOVLjRGr/gDQPCV6K9bk0YBJ7Nrh3OD0jRC07xAC1g4MyoYOMxath4iho2HqCGjRv9S9hoiI9/uHI0w3M0xIe+Mod/JFI0n+UiYDTBN6w+QIl79TFu1HhHtd4aNe71tsA/Ro17oa/xN1Di/oUZ0BcewHSWZrEeJgAAAABJRU5ErkJggg=='); /* was 'x.png' */
 background-size:2.125em 2.125em;/*tapatalk*/
 background-repeat:no-repeat;
 background-position:0px 0px;
 text-indent:-9999px
-}
-
-@media(-webkit-min-device-pixel-ratio:2),(min-resolution:192dpi)
-{
-.mobile_banner_close
-{
-background-image:url('x.png');
-background-size:2.125em 2.125em;/*tapatalk*/
-}
 }
 
 .mobile_banner_controls
@@ -171,7 +164,6 @@ background-image:-webkit-linear-gradient(top,#68b1dc,#246991);
 background-image:-moz-linear-gradient(top,#68b1dc,#246991);
 background-image:-ms-linear-gradient(top,#68b1dc,#246991);
 background-image:-o-linear-gradient(top,#68b1dc,#246991);
-background-image:linear-gradient(top,#68b1dc,#246991);
 background-color:#68b1dc;
 color:#fff;
 text-shadow:0 -1px 0 rgba(0,0,0,.35)/*tapatalk*/
@@ -189,7 +181,6 @@ background-image:-webkit-linear-gradient(top,#fff,#ddd);
 background-image:-moz-linear-gradient(top,#fff,#ddd);
 background-image:-ms-linear-gradient(top,#fff,#ddd);
 background-image:-o-linear-gradient(top,#fff,#ddd);
-background-image:linear-gradient(top,#fff,#ddd);
 background-color:#ddd;
 color:rgba(0,0,0,.8);
 text-shadow:0 1px 0 rgba(255,255,255,.9)/*tapatalk*/
@@ -274,7 +265,6 @@ background-image:-webkit-linear-gradient(top,#ededed,#e5e5e5);
 background-image:-moz-linear-gradient(top,#ededed,#e5e5e5);
 background-image:-ms-linear-gradient(top,#ededed,#e5e5e5);
 background-image:-o-linear-gradient(top,#ededed,#e5e5e5);
-background-image:linear-gradient(top,#ededed,#e5e5e5);
 color:#777
 }
 
@@ -284,7 +274,6 @@ background-image:-webkit-linear-gradient(top,#68b1dc,#337fae);
 background-image:-moz-linear-gradient(top,#68b1dc,#337fae);
 background-image:-ms-linear-gradient(top,#68b1dc,#337fae);
 background-image:-o-linear-gradient(top,#68b1dc,#337fae);
-background-image:linear-gradient(top,#68b1dc,#337fae)
 }
 
 .banner_theme_light .mobile_banner_install::after
@@ -337,4 +326,10 @@ h3.mobile_banner_heading
     background:#f0f0f0;
     border: 0;
     line-height: 1.212em;
+}
+
+/* for vb mobile compatibility */
+.ui-mobile [data-role="page"], .ui-mobile [data-role="dialog"], .ui-page
+{
+    top:auto;
 }
