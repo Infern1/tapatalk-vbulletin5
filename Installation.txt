@@ -11,13 +11,14 @@ Tapatalk Plugin for vBulletin 5.x Installation
     If you were using a version of the vBulletin 5 Tapatalk Plugin that came before Version 1.0.0, you should uninstall the Tapatalk Product from the vBulletin 5 AdminCP and also delete the 'mobiquo' folder. You may then continue with the steps listed above.
 
 -- Changelog --
- vBulletin 5 Series Tapatalk Plugin Version 1.0.3 released
-    1. tested with vBulletin 5.1.3
-    2. post editing issues
-    3. paragraph formatting optimized
-    4. correct display of view and responses count
-	5. fixed issue that caused some forums/topics visible to users without permission
-	6. many issues reported by users solved
+ vBulletin 5 Series Tapatalk Plugin Version 1.0.3
+
+    1. Certified for use with vBulletin 5.1.3
+    2. Fixed miscellaneous issues encountered when editing posts
+    3. Optimized paragraph formatting
+    4. Fixed an issue where number of views and responses were displayed incorrectly
+    5. Fixed an issue that caused some forums/topics to be visible to users without the required permissions
+    6. Miscellaneous minor issues reported by users resolved
 	
 	
     vBulletin 5 Series Tapatalk Plugin Version 1.0.2 released
