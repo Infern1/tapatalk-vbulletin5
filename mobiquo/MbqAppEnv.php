@@ -30,8 +30,11 @@ Class MbqAppEnv extends MbqBaseAppEnv {
         define('EXTTMBQ_NO_LIMIT_DEPTH', 10000);    //define a big depth as no limit
         define('EXTTMBQ_NO_LIMIT_PERPAGE', PHP_INT_MAX);    //define a big perpage as no limit(all data)
         $this->exttOptions = vB::getDatastore()->getValue('options');
-        $this->rootUrl = (vB5_Config::instance()->baseurl)? vB5_Config::instance()->baseurl : $this->exttOptions['frontendurl'];
-        $this->baseUrlCore = (vB5_Config::instance()->baseurl_core)? vB5_Config::instance()->baseurl_core : $this->exttOptions['bburl'];
+        //$this->rootUrl = (vB5_Config::instance()->baseurl)? vB5_Config::instance()->baseurl : $this->exttOptions['frontendurl'];
+        // Replace by more supported option
+        $this->rootUrl = vB5_Template_Options::instance()->get('options.frontendurl');
+        //$this->baseUrlCore = (vB5_Config::instance()->baseurl_core)? vB5_Config::instance()->baseurl_core : $this->exttOptions['bburl'];
+         $this->baseUrlCore = vB5_Template_Options::instance()->get('options.bburl');
         //$this->baseUrlCore = vB5_Config::instance()->baseurl_core;
         if (MbqMain::$oMbqConfig->moduleIsEnable('user')) {
             $newResult = vB_Api::instance('user')->fetchCurrentUserinfo();
